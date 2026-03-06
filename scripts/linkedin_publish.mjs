@@ -33,21 +33,31 @@ for (const p of images) {
   if (!fs.existsSync(p)) throw new Error(`Missing image: ${p}`);
 }
 
-const userDataDir = process.env.LOCALAPPDATA
-  ? path.join(process.env.LOCALAPPDATA, 'Google', 'Chrome', 'User Data')
-  : null;
+const cdpUrl = process.env.OPENCLAW_CDP_URL || 'ws://127.0.0.1:18792/cdp';
+let browser;
+let page;
 
-if (!userDataDir || !fs.existsSync(userDataDir)) {
-  throw new Error('Chrome user data dir not found.');
+try {
+  // Prefer attaching to existing Chrome session (already logged in LinkedIn).
+  browser = await chromium.connectOverCDP(cdpUrl);
+  const ctx = browser.contexts()[0];
+  if (!ctx) throw new Error('No CDP contexts found');
+  const linkedin = ctx.pages().find(p => p.url().includes('linkedin.com'));
+  page = linkedin ?? await ctx.newPage();
+  console.log(`Connected over CDP: ${cdpUrl}`);
+} catch {
+  // Fallback: isolated Chrome profile for manual login if needed.
+  const userDataDir = path.join(process.cwd(), 'tmp', 'chrome-autopublish-profile');
+  fs.mkdirSync(userDataDir, { recursive: true });
+  const ctx = await chromium.launchPersistentContext(userDataDir, {
+    channel: 'chrome',
+    headless: false,
+    viewport: { width: 1400, height: 950 },
+  });
+  browser = ctx;
+  page = ctx.pages()[0] ?? await ctx.newPage();
+  console.log('Using fallback persistent profile:', userDataDir);
 }
-
-const browser = await chromium.launchPersistentContext(userDataDir, {
-  channel: 'chrome',
-  headless: false,
-  viewport: { width: 1400, height: 950 },
-});
-
-const page = browser.pages()[0] ?? await browser.newPage();
 
 try {
   console.log('[1/6] Open LinkedIn feed');
