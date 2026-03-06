@@ -54,3 +54,6 @@ Add whatever helps you do your job. This is your cheat sheet.
 - Suitable: small-to-medium models, light documentation, early automation scripting (pyRevit/Dynamo), focused single-model sessions.
 - Risky/slow: large federated models, heavy real-time visualization, concurrent Revit + render + browser + many apps.
 - Recommended baseline for smoother work: 16 GB RAM minimum (32 GB ideal) and dedicated GPU if possible.
+
+### Web browsing preference
+- For internet/webpage access tasks, prefer using the `agent-browser` skill/workflow.
