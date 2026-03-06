@@ -31,6 +31,20 @@ except ImportError:
     print("Error: agentmail package not found. Install with: pip install agentmail")
     sys.exit(1)
 
+
+def as_dict(obj):
+    """Normalize SDK objects/dicts to a dict."""
+    if isinstance(obj, dict):
+        return obj
+    if hasattr(obj, "model_dump"):
+        return obj.model_dump()
+    if hasattr(obj, "dict"):
+        return obj.dict()
+    try:
+        return dict(obj)
+    except Exception:
+        return vars(obj)
+
 def format_timestamp(iso_string):
     """Format ISO timestamp for display"""
     try:
@@ -41,6 +55,7 @@ def format_timestamp(iso_string):
 
 def print_message_summary(message):
     """Print a summary of a message"""
+    message = as_dict(message)
     from_addr = message.get('from', [{}])[0].get('email', 'Unknown')
     from_name = message.get('from', [{}])[0].get('name', '')
     subject = message.get('subject', '(no subject)')
@@ -57,6 +72,7 @@ def print_message_summary(message):
 
 def print_thread_summary(thread):
     """Print a summary of a thread"""
+    thread = as_dict(thread)
     subject = thread.get('subject', '(no subject)')
     participants = ', '.join(thread.get('participants', []))
     count = thread.get('message_count', 0)
@@ -106,7 +122,8 @@ def main():
                     current_message_ids = set()
                     
                     for message in messages.messages:
-                        msg_id = message.get('message_id')
+                        m = as_dict(message)
+                        msg_id = m.get('message_id')
                         current_message_ids.add(msg_id)
                         
                         if msg_id not in last_message_ids:
@@ -135,6 +152,7 @@ def main():
                 inbox_id=args.inbox,
                 message_id=args.message
             )
+            message = as_dict(message)
             
             print(f"📧 Message Details:")
             print(f"   ID: {message.get('message_id')}")
