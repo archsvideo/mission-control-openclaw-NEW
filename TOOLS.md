@@ -57,3 +57,10 @@ Add whatever helps you do your job. This is your cheat sheet.
 
 ### Web browsing preference
 - For internet/webpage access tasks, prefer using the `agent-browser` skill/workflow.
+
+### Long-task progress protocol (Oscar)
+- For tasks estimated >60s, send a progress update every 40-60s.
+- Use milestone updates: `start -> collecting -> filtering -> delivering`.
+- If no valid result after 3-5 minutes, send explicit status: `0 valid yet` + next action.
+- Never stay silent after saying "I'm doing it"; always post at least one intermediate update.
+- Break long tasks into small batches and report each batch before continuing.
