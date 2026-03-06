@@ -22,6 +22,7 @@ function argsAfter(name) {
 
 const copyPath = arg('--copy');
 const images = argsAfter('--images');
+const verifyTextArg = arg('--verify-text');
 
 if (!copyPath || !images.length) {
   console.error('Usage: node scripts/linkedin_publish.mjs --copy <copy.txt> --images <img1> <img2> ...');
@@ -29,6 +30,7 @@ if (!copyPath || !images.length) {
 }
 
 const copy = fs.readFileSync(copyPath, 'utf8');
+const verifyText = (verifyTextArg || copy.split('\n').find(Boolean) || '').trim();
 for (const p of images) {
   if (!fs.existsSync(p)) throw new Error(`Missing image: ${p}`);
 }
@@ -53,6 +55,7 @@ try {
     channel: 'chrome',
     headless: false,
     viewport: { width: 1400, height: 950 },
+    args: ['--disable-gpu', '--disable-software-rasterizer'],
   });
   browser = ctx;
   page = ctx.pages()[0] ?? await ctx.newPage();
@@ -102,9 +105,32 @@ try {
   console.log('[6/6] Publish');
   const publishBtn = page.getByRole('button', { name: /publicar|post/i }).first();
   await publishBtn.click({ timeout: 20000, force: true });
+  // ensure publish actually completed
+  await page.waitForFunction(() => {
+    const dlg = [...document.querySelectorAll('[role="dialog"]')].find(d => /editor|crear publicación|create a post/i.test(d.innerText || ''));
+    return !dlg;
+  }, { timeout: 30000 }).catch(() => { throw new Error('Publish click did not close composer dialog'); });
 
-  await page.waitForTimeout(4000);
-  console.log('SUCCESS: Post published.');
+  await page.waitForTimeout(5000);
+
+  if (verifyText) {
+    console.log('[7/7] Verify in recent activity');
+    await page.goto('https://www.linkedin.com/in/oscar-leon-archs/recent-activity/all/', { waitUntil: 'domcontentloaded' });
+    let found = false;
+    for (let i = 0; i < 20; i++) {
+      const bodyText = (await page.locator('body').innerText()).toLowerCase();
+      if (bodyText.includes(verifyText.toLowerCase())) {
+        found = true;
+        break;
+      }
+      await page.waitForTimeout(1500);
+      await page.reload({ waitUntil: 'domcontentloaded' });
+    }
+    await page.screenshot({ path: path.join(process.cwd(), 'tmp', 'linkedin_publish', 'verify-proof.png'), fullPage: true }).catch(() => {});
+    if (!found) throw new Error(`Published but verify text not found in activity: "${verifyText}"`);
+  }
+
+  console.log('SUCCESS: Post published and verified.');
 } catch (err) {
   console.error('FAILED:', err.message);
   process.exitCode = 2;

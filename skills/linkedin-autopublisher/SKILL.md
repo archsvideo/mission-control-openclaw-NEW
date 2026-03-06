@@ -20,11 +20,11 @@ Browser relay can fail on native OS file picker. This flow avoids picker depende
 1. Prepare assets:
    - If Drive link exists, download/extract to `tmp/linkedin_publish/<timestamp>/images/`
    - Save copy into `tmp/linkedin_publish/<timestamp>/copy.txt`
-2. Run publisher script:
-   - `node scripts/linkedin_publish.mjs --copy <path-to-copy.txt> --images <img1> <img2> ...`
+2. Run publisher script with explicit verification text:
+   - `node scripts/linkedin_publish.mjs --copy <path-to-copy.txt> --images <img1> <img2> ... --verify-text "<unique snippet>"`
 3. Verify success:
-   - Script must detect post composer closed + activity confirmation.
-   - Capture screenshot to `tmp/linkedin_publish/<timestamp>/posted-proof.png`
+   - Script must confirm the snippet appears in `recent-activity/all`.
+   - Script writes proof screenshot to `tmp/linkedin_publish/verify-proof.png`.
 4. Report status clearly:
    - Success: "Publicado ✅"
    - Failure: exact blocking step + suggested fallback.
