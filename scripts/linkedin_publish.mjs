@@ -77,17 +77,31 @@ try {
   await fileInput.setInputFiles(images);
 
   console.log('[4/6] Continue to editor');
-  const nextBtn = page.getByRole('button', { name: /siguiente|next/i }).first();
-  await nextBtn.click({ timeout: 30000 });
+  const uploadDialog = page.getByRole('dialog').filter({ hasText: /selecciona archivos|editor|create a post|crear publicación/i }).first();
+
+  const editorLocator = page
+    .locator('div[role="textbox"][contenteditable="true"], div.ql-editor[contenteditable="true"], [data-placeholder*="comparte" i][contenteditable="true"]')
+    .first();
+
+  for (let i = 0; i < 3; i++) {
+    const hasEditor = await editorLocator.isVisible().catch(() => false);
+    if (hasEditor) break;
+    const nextInDialog = uploadDialog.getByRole('button', { name: /siguiente|next/i }).last();
+    await nextInDialog.click({ timeout: 15000, force: true });
+    await page.waitForTimeout(1200);
+  }
+
+  await page.screenshot({ path: path.join(process.cwd(), 'tmp', 'linkedin_publish', 'after-next.png'), fullPage: true }).catch(() => {});
 
   console.log('[5/6] Paste copy');
-  const editor = page.locator('[contenteditable="true"]').first();
+  const editor = editorLocator;
+  await editor.waitFor({ state: 'visible', timeout: 30000 });
   await editor.click({ timeout: 15000 });
   await editor.fill(copy);
 
   console.log('[6/6] Publish');
   const publishBtn = page.getByRole('button', { name: /publicar|post/i }).first();
-  await publishBtn.click({ timeout: 20000 });
+  await publishBtn.click({ timeout: 20000, force: true });
 
   await page.waitForTimeout(4000);
   console.log('SUCCESS: Post published.');
