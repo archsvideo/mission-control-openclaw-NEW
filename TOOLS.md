@@ -58,6 +58,12 @@ Add whatever helps you do your job. This is your cheat sheet.
 ### Web browsing preference
 - For internet/webpage access tasks, prefer using the `agent-browser` skill/workflow.
 
+### Freepik generation defaults (Oscar)
+- Always use model: **Google Nano Banana 2**.
+- For sketch-to-real render tasks, prioritize geometry lock over creativity.
+- Always upload the latest user-provided reference capture before generating.
+- Keep monitor loop active and proactively notify when output is ready (no user ping required).
+
 ### Long-task progress protocol (Oscar)
 - For tasks estimated >60s, send a progress update every 40-60s.
 - Use milestone updates: `start -> collecting -> filtering -> delivering`.
