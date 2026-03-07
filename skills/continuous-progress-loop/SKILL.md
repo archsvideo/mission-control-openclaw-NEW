@@ -36,6 +36,21 @@ Use this protocol for long-running work so the user never loses visibility.
 3. Report output immediately.
 4. Continue automatically to next block unless user stops.
 
+## Autonomous Monitor Mode (for image/video generation)
+
+When a task is known to take time (rendering, generation, uploads, queue waits), do not wait for a new user message.
+
+1. Start monitor loop with 45-90s check interval.
+2. After each check, proactively send a short progress update (or send result if ready).
+3. If ready, deliver artifact immediately via channel tool and stop loop.
+4. If not ready after 3-5 minutes, send `0 valid yet` with next action.
+5. Keep checking until success, failure, or explicit user stop.
+
+Use milestone tags in updates:
+- `start`
+- `queued/processing`
+- `ready/delivered`
+
 ## Failure Handling
 
 If a tool fails:
