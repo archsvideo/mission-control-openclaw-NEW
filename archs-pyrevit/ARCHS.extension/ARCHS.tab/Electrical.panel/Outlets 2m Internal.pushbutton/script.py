@@ -2,10 +2,12 @@
 from Autodesk.Revit.DB import (
     BuiltInCategory, FilteredElementCollector, FamilySymbol,
     BuiltInParameter, Wall, LocationCurve, XYZ, Transaction,
-    UnitUtils, UnitTypeId, WallFunction
+    UnitUtils, UnitTypeId, WallFunction, Family
 )
 from Autodesk.Revit.DB.Structure import StructuralType
 from Autodesk.Revit.UI import TaskDialog
+import clr
+import os
 
 try:
     from pyrevit import forms
@@ -32,15 +34,41 @@ def is_internal_wall(wall):
 uidoc = __revit__.ActiveUIDocument
 doc = uidoc.Document
 
-# Collect outlet symbols
-symbols = list(
-    FilteredElementCollector(doc)
-    .OfCategory(BuiltInCategory.OST_ElectricalFixtures)
-    .WhereElementIsElementType()
-)
+def get_fixture_symbols(_doc):
+    return list(
+        FilteredElementCollector(_doc)
+        .OfCategory(BuiltInCategory.OST_ElectricalFixtures)
+        .WhereElementIsElementType()
+    )
+
+
+def try_load_default_outlet_family(_doc):
+    fam_path = r"C:\Users\Oscar\.openclaw\workspace\families\Wall-Receptacle.rfa"
+    if not os.path.exists(fam_path):
+        return False
+
+    t = Transaction(_doc, "ARCH-S | Load default outlet family")
+    t.Start()
+    try:
+        fam_ref = clr.Reference[Family]()
+        ok = _doc.LoadFamily(fam_path, fam_ref)
+        t.Commit()
+        return bool(ok)
+    except Exception:
+        t.RollBack()
+        return False
+
+
+# Collect outlet symbols (autoload family if needed)
+symbols = get_fixture_symbols(doc)
+if not symbols:
+    loaded = try_load_default_outlet_family(doc)
+    if loaded:
+        doc.Regenerate()
+        symbols = get_fixture_symbols(doc)
 
 if not symbols:
-    TaskDialog.Show("ARCH-S", "No hay familias cargadas en Electrical Fixtures.\nCarga una familia de tomacorriente y vuelve a intentar.")
+    TaskDialog.Show("ARCH-S", "No hay familias cargadas en Electrical Fixtures y no pude cargar una por defecto.\nRevisa: C:/Users/Oscar/.openclaw/workspace/families/Wall-Receptacle.rfa")
     raise Exception("No electrical fixture symbols")
 
 # Filter likely outlet symbols
