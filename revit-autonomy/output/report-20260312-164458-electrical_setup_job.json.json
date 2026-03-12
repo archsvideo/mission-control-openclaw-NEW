@@ -1,0 +1,14 @@
+﻿{
+    "job":  "electrical_setup_job.json",
+    "started":  "2026-03-12T16:44:57",
+    "ok":  false,
+    "tasks":  [
+                  {
+                      "name":  "create_electrical_views",
+                      "ok":  false,
+                      "output":  "Error: Can not detect the Revit version of model at \"C:/Users/Oscar/Downloads/YOGA FINAL.rvt\". Model might be newer than specified version 2026.\r\nRun with \"--debug\" option to see debug messages \r\n",
+                      "command":  "pyrevit run \"C:\\Users\\Oscar\\.openclaw\\workspace\\revit-autonomy\\scripts\\create_electrical_views.py\" \"C:/Users/Oscar/Downloads/YOGA FINAL.rvt\" --revit=2026 --allowdialogs"
+                  }
+              ],
+    "finished":  "2026-03-12T16:44:58"
+}
