@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
-"""
-ARCH-S autonomous hook
-Runs when a document is opened in Revit.
-If there is a matching job JSON in revit-autonomy/jobs/inbox, executes tasks automatically.
-"""
 import os
 import json
 import traceback
+import datetime
 
 from Autodesk.Revit.DB import (
     FilteredElementCollector, ViewFamilyType, ViewFamily, ViewPlan, Level,
@@ -16,17 +12,23 @@ from Autodesk.Revit.DB import (
 from Autodesk.Revit.DB.Structure import StructuralType
 import clr
 
-
 ROOT = r"C:\Users\Oscar\.openclaw\workspace\revit-autonomy"
 INBOX = os.path.join(ROOT, "jobs", "inbox")
 DONE = os.path.join(ROOT, "jobs", "done")
 FAILED = os.path.join(ROOT, "jobs", "failed")
 OUT = os.path.join(ROOT, "output")
+LOG = os.path.join(OUT, "hook-debug.log")
 FAM_DEFAULT = r"C:\Users\Oscar\.openclaw\workspace\families\Wall-Receptacle.rfa"
 
 for p in (INBOX, DONE, FAILED, OUT):
     if not os.path.exists(p):
         os.makedirs(p)
+
+
+def log(msg):
+    ts = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with open(LOG, 'a') as f:
+        f.write('[{}] {}\n'.format(ts, msg))
 
 
 def m_to_ft(v):
@@ -56,12 +58,25 @@ def unique_name(doc, base):
 def create_electrical_views(doc):
     levels = sorted(list(FilteredElementCollector(doc).OfClass(Level)), key=lambda l: l.Elevation)
     vft = None
+    # Robust lookup across templates/API variants
     for t in FilteredElementCollector(doc).OfClass(ViewFamilyType):
-        if t.ViewFamily == ViewFamily.ElectricalPlan:
-            vft = t
-            break
+        try:
+            if str(t.ViewFamily) == 'ElectricalPlan':
+                vft = t
+                break
+        except Exception:
+            pass
     if vft is None:
-        raise Exception("No ElectricalPlan ViewFamilyType found")
+        for t in FilteredElementCollector(doc).OfClass(ViewFamilyType):
+            try:
+                n = (t.get_Parameter(BuiltInParameter.SYMBOL_NAME_PARAM).AsString() or '').lower()
+            except Exception:
+                n = ''
+            if 'elect' in n:
+                vft = t
+                break
+    if vft is None:
+        raise Exception('No electrical ViewFamilyType found')
 
     created = []
     tr = Transaction(doc, "ARCH-S Auto | Create Electrical Views")
@@ -176,7 +191,6 @@ def model_matches(open_doc, model_path):
     b = os.path.normcase(os.path.normpath(model_path.replace('/', '\\')))
     if a and b and a == b:
         return True
-    # fallback by filename
     return os.path.basename(a) == os.path.basename(b)
 
 
@@ -186,17 +200,14 @@ def process_job(doc, job_file):
         job = json.load(f)
 
     if not model_matches(doc, job.get('modelPath')):
+        log('skip job {}: model mismatch doc={} job={}'.format(job_file, doc.PathName, job.get('modelPath')))
         return False
 
-    report = {
-        "job": job_file,
-        "doc": doc.PathName,
-        "ok": True,
-        "tasks": []
-    }
+    report = {"job": job_file, "doc": doc.PathName, "ok": True, "tasks": []}
     try:
         for t in job.get('tasks', []):
             name = t.get('name')
+            log('run task {}'.format(name))
             if name == 'create_electrical_views':
                 r = create_electrical_views(doc)
             elif name == 'place_outlets_internal_2m':
@@ -209,21 +220,25 @@ def process_job(doc, job_file):
         report['error'] = str(ex)
         report['trace'] = traceback.format_exc()
 
-    stamp = __import__('datetime').datetime.now().strftime('%Y%m%d-%H%M%S')
+    stamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
     rep_file = os.path.join(OUT, 'hook-report-{}-{}.json'.format(stamp, job_file))
     with open(rep_file, 'w') as rf:
         json.dump(report, rf, indent=2)
 
     target = DONE if report['ok'] else FAILED
     os.rename(job_path, os.path.join(target, job_file))
+    log('job {} -> {} (ok={})'.format(job_file, target, report['ok']))
     return True
 
 
-# ENTRY
-uidoc = __revit__.ActiveUIDocument
-if uidoc and uidoc.Document and os.path.exists(INBOX):
-    for jf in sorted([x for x in os.listdir(INBOX) if x.lower().endswith('.json')]):
-        try:
-            process_job(uidoc.Document, jf)
-        except Exception:
-            pass
+try:
+    uidoc = __revit__.ActiveUIDocument
+    if uidoc and uidoc.Document and os.path.exists(INBOX):
+        log('hook start doc={}'.format(uidoc.Document.PathName))
+        for jf in sorted([x for x in os.listdir(INBOX) if x.lower().endswith('.json')]):
+            try:
+                process_job(uidoc.Document, jf)
+            except Exception:
+                log('process_job failed {}\n{}'.format(jf, traceback.format_exc()))
+except Exception:
+    log('hook fatal\n{}'.format(traceback.format_exc()))
