@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ARCH-S Mission Control Pro</title>
+  <style>
+    :root{--bg:#0b1220;--card:#121d33;--muted:#91a4c9;--txt:#eef3ff;--line:#263a65;--ok:#2ccf7a;--a:#6da8ff;--warn:#ffbe55}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--txt);font-family:Inter,Segoe UI,Arial}
+    .wrap{max-width:1400px;margin:auto;padding:16px} h1{margin:0 0 6px} .muted{color:var(--muted)}
+    .top{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+    .row{display:grid;grid-template-columns:2fr 1.4fr .8fr .9fr .9fr .9fr;gap:8px}
+    input,select,button,textarea{width:100%;padding:8px;border-radius:8px;border:1px solid #314c81;background:#0c1730;color:var(--txt)}
+    button{border:none;background:var(--a);color:#081228;font-weight:700;cursor:pointer}
+    .board{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .task{background:#0d1730;border:1px solid #2d4678;border-radius:10px;padding:10px;margin-bottom:8px}
+    .meta{font-size:12px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap}
+    .pill{padding:2px 8px;border-radius:999px;font-size:11px}.A{background:#4a1f26}.M{background:#4a3b20}.B{background:#1c325d}
+    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.kpi{background:#0f1933;border:1px solid #29416f;border-radius:10px;padding:10px}
+    .split{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;margin-top:12px}
+    .week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.day{background:#0f1933;border:1px solid #29416f;border-radius:8px;padding:8px;min-height:90px}
+    .small{font-size:12px}.ok{color:var(--ok)}
+    @media(max-width:1100px){.top,.split{grid-template-columns:1fr}.board{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr 1fr}}
+    @media(max-width:680px){.board,.week,.kpis{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>ARCH-S Mission Control Pro</h1>
+  <div class="muted">Diseñado para tu flujo real: Inbox → Priorizar → Calendar blocks → Weekly review.</div>
+
+  <div class="top">
+    <div class="card">
+      <div class="row">
+        <input id="t" placeholder="Tarea (acción exacta)"/>
+        <input id="r" placeholder="Resultado esperado"/>
+        <input id="eta" placeholder="ETA (ej 45m)"/>
+        <input id="due" type="date"/>
+        <select id="p"><option value="A">Alta</option><option value="M">Media</option><option value="B">Baja</option></select>
+        <select id="s"><option>Inbox</option><option>Hoy</option><option>Semana</option><option>Seguimiento</option></select>
+      </div>
+      <textarea id="n" rows="2" placeholder="Notas"></textarea>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px">
+        <button id="add">+ Crear</button>
+        <button id="seed" style="background:#4f7ddb;color:#fff">Cargar sistema ARCH-S</button>
+        <button id="clear" style="background:#32486f;color:#fff">Limpiar</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="kpis">
+        <div class="kpi"><div class="small muted">Completadas hoy</div><div id="kDone" style="font-size:24px">0</div></div>
+        <div class="kpi"><div class="small muted">Horas planificadas</div><div id="kHours" style="font-size:24px">0h</div></div>
+        <div class="kpi"><div class="small muted">Bloqueadas</div><div id="kBlock" style="font-size:24px">0</div></div>
+      </div>
+      <hr style="border-color:#29416f;opacity:.5">
+      <div class="small">Rituales que usa la gente en Mission Control:</div>
+      <ul class="small muted">
+        <li>Daily planning (10 min) + shutdown (10 min)</li>
+        <li>Time-blocking por bloques de energía</li>
+        <li>Weekly review + planning en una sola sesión</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="board" id="board"></div>
+
+  <div class="split">
+    <div class="card">
+      <b>Time Blocking semanal (vista rápida)</b>
+      <div class="week" id="week"></div>
+    </div>
+    <div class="card">
+      <b>Weekly Review</b>
+      <ul class="small" id="review"></ul>
+      <div class="small muted">Tip: combina review + planificación (estilo Sunsama/Motion).</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const key='archs-mc-pro-v1';
+const cols=['Hoy','Semana','Seguimiento','Inbox'];
+let tasks=JSON.parse(localStorage.getItem(key)||'[]');
+const $=id=>document.getElementById(id);
+const num=s=>{const m=(s||'').match(/(\d+)/);return m?+m[1]:0}
+const hours=s=>{const m=(s||'').toLowerCase().match(/(\d+)\s*h/); if(m)return +m[1]; const mm=(s||'').toLowerCase().match(/(\d+)\s*m/); return mm?(+mm[1]/60):0}
+function save(){localStorage.setItem(key,JSON.stringify(tasks)); render();}
+function pill(p){return `<span class='pill ${p}'>${p==='A'?'Alta':p==='M'?'Media':'Baja'}</span>`}
+function taskCard(t,i){return `<div class='task'><b>${t.t}</b><div class='small muted'>${t.r||''}</div><div class='meta'>${pill(t.p)}<span>⏱ ${t.eta||'-'}</span><span>📅 ${t.due||'-'}</span>${t.blocked?'<span style="color:#ffbe55">⚠ bloqueada</span>':''}</div>${t.n?`<div class='small'>${t.n}</div>`:''}<div style='display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px'><select onchange="mv(${i},this.value)">${cols.map(c=>`<option ${t.s===c?'selected':''}>${c}</option>`).join('')}</select><button onclick='tg(${i})' style='background:#2e4a76;color:#fff'>${t.done?'Desmarcar':'Hecha'}</button><button onclick='bl(${i})' style='background:#4e5f85;color:#fff'>${t.blocked?'Desbloq':'Bloq'}</button></div></div>`}
+function render(){
+ $('board').innerHTML=cols.map(c=>`<div class='card'><b>${c}</b>${tasks.map((t,i)=>t.s===c?taskCard(t,i):'').join('')||"<div class='small muted'>Sin tareas</div>"}</div>`).join('');
+ $('kDone').textContent=tasks.filter(t=>t.done).length;
+ $('kHours').textContent=(tasks.reduce((a,t)=>a+hours(t.eta),0)).toFixed(1)+'h';
+ $('kBlock').textContent=tasks.filter(t=>t.blocked).length;
+ const d=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+ $('week').innerHTML=d.map(x=>`<div class='day'><b>${x}</b><div class='small muted'>Bloques</div><div class='small'>${tasks.filter(t=>t.s==='Hoy'||t.s==='Semana').slice(0,2).map(t=>'• '+t.t).join('<br>')||'—'}</div></div>`).join('');
+ const done=tasks.filter(t=>t.done).length, open=tasks.length-done;
+ $('review').innerHTML=`<li>✅ Completadas: <b>${done}</b></li><li>🧭 Pendientes: <b>${open}</b></li><li>⚠ Bloqueadas: <b>${tasks.filter(t=>t.blocked).length}</b></li><li>🎯 Próxima semana: define 3 objetivos de impacto</li>`;
+}
+window.mv=(i,s)=>{tasks[i].s=s;save()}; window.tg=i=>{tasks[i].done=!tasks[i].done;save()}; window.bl=i=>{tasks[i].blocked=!tasks[i].blocked;save()};
+$('add').onclick=()=>{const t={t:$('t').value.trim(),r:$('r').value.trim(),eta:$('eta').value.trim(),due:$('due').value,p:$('p').value,s:$('s').value,n:$('n').value.trim(),done:false,blocked:false}; if(!t.t) return alert('Falta título'); tasks.push(t); ['t','r','eta','n'].forEach(id=>$(id).value=''); save();}
+$('clear').onclick=()=>{if(confirm('¿Borrar todo?')){tasks=[];save();}}
+$('seed').onclick=()=>{tasks=[
+ {t:'Top 3 diario antes de 09:30',r:'3 tareas cerrables',eta:'10m',due:'',p:'A',s:'Hoy',n:'Plan del día',done:false,blocked:false},
+ {t:'Publicar 1 post LinkedIn',r:'1 post publicado',eta:'45m',due:'',p:'A',s:'Hoy',n:'Hook fuerte + CTA',done:false,blocked:false},
+ {t:'Seguimiento clientes permisos',r:'mensajes enviados',eta:'40m',due:'',p:'A',s:'Semana',n:'bloque único',done:false,blocked:false},
+ {t:'Review pyRevit vs Codex',r:'decisión por fase',eta:'35m',due:'',p:'M',s:'Semana',n:'operación estable',done:false,blocked:false},
+ {t:'Esperando feedback cliente',r:'respuesta',eta:'5m',due:'',p:'M',s:'Seguimiento',n:'recordatorio 48h',done:false,blocked:false}
+]; save();}
+render();
+</script>
+</body>
+</html>
