@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARCH‑S Mission Control</title>
+  <style>
+    :root{--bg:#0b1020;--card:#121a31;--muted:#9fb0d1;--txt:#eef3ff;--a:#6ea8fe;--ok:#29c36a;--warn:#ffb84d;--bad:#ff6b6b}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Arial;background:var(--bg);color:var(--txt)}
+    .wrap{max-width:1300px;margin:0 auto;padding:18px}
+    h1{margin:0 0 8px;font-size:24px} .sub{color:var(--muted);margin-bottom:14px}
+    .top{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px}
+    .card{background:var(--card);border:1px solid #243259;border-radius:12px;padding:12px}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .col h3{margin:0 0 8px;font-size:15px}
+    .task{background:#0f1730;border:1px solid #293d6d;border-radius:10px;padding:10px;margin-bottom:8px}
+    .task b{display:block;margin-bottom:6px}
+    .meta{font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px}
+    .row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+    input,select,button,textarea{width:100%;padding:8px;border-radius:8px;border:1px solid #324879;background:#0d1630;color:var(--txt)}
+    button{background:var(--a);border:none;color:#081120;font-weight:700;cursor:pointer}
+    .tiny{font-size:12px;color:var(--muted)}
+    .pill{padding:2px 7px;border-radius:999px;font-size:11px}
+    .A{background:#4d1e24;color:#ffd4d8}.M{background:#4e3b1b;color:#ffe7ba}.B{background:#1d2e59;color:#cde0ff}
+    @media (max-width:1100px){.grid{grid-template-columns:1fr 1fr}.top{grid-template-columns:1fr}}
+    @media (max-width:680px){.grid,.row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>ARCH‑S Mission Control</h1>
+  <div class="sub">Top 3 diario · Semana · Seguimiento · Inbox | Persistencia local (no nube)</div>
+
+  <div class="top">
+    <div class="card">
+      <div class="row">
+        <input id="title" placeholder="Tarea (qué exacto)" />
+        <input id="result" placeholder="Resultado esperado" />
+        <input id="eta" placeholder="Tiempo (ej: 45m)" />
+        <input id="due" type="date" />
+        <select id="prio"><option value="A">Alta</option><option value="M">Media</option><option value="B">Baja</option></select>
+        <select id="status"><option>Inbox</option><option>Hoy</option><option>Semana</option><option>Seguimiento</option></select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px">
+        <textarea id="notes" rows="2" placeholder="Notas / contexto"></textarea>
+        <button id="add">+ Crear tarea</button>
+      </div>
+      <div class="tiny" style="margin-top:8px">Formato recomendado: Qué · Resultado · Tiempo · Fecha · Prioridad · Estado</div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">Ritmo operativo</h3>
+      <div class="tiny">08:00 plan (10 min) · 18:00 cierre (10 min) · Lunes revisión semanal (30 min)</div>
+      <hr style="border-color:#273a66;opacity:.5">
+      <button id="seed">Cargar plantilla ARCH‑S</button>
+      <button id="clear" style="margin-top:8px;background:#31456f;color:#e8efff">Limpiar todo</button>
+    </div>
+  </div>
+
+  <div class="grid" id="board"></div>
+</div>
+
+<script>
+const COLS=["Hoy","Semana","Seguimiento","Inbox"];
+const key='archs-mission-control-v1';
+let tasks=JSON.parse(localStorage.getItem(key)||'[]');
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem(key,JSON.stringify(tasks));render();}
+function badge(p){return `<span class="pill ${p}">${p==='A'?'Alta':p==='M'?'Media':'Baja'}</span>`}
+function card(t,i){
+ return `<div class='task'>
+   <b>${t.title||'(sin título)'}</b>
+   <div class='tiny'>${t.result||''}</div>
+   <div class='meta'><span>${badge(t.prio||'M')}</span><span>⏱ ${t.eta||'-'}</span><span>📅 ${t.due||'-'}</span></div>
+   ${t.notes?`<div class='tiny' style='margin-top:6px'>${t.notes}</div>`:''}
+   <div style='display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px'>
+    <select onchange="move(${i},this.value)">${COLS.map(c=>`<option ${t.status===c?'selected':''}>${c}</option>`).join('')}</select>
+    <button onclick='del(${i})' style='background:#445a86;color:#fff'>Eliminar</button>
+   </div>
+ </div>`
+}
+function render(){
+ const board=$('board');
+ board.innerHTML=COLS.map(c=>`<div class='col card'><h3>${c}</h3>${tasks.map((t,i)=>t.status===c?card(t,i):'').join('')||"<div class='tiny'>Sin tareas</div>"}</div>`).join('');
+}
+window.move=(i,s)=>{tasks[i].status=s;save();}
+window.del=(i)=>{tasks.splice(i,1);save();}
+$('add').onclick=()=>{
+ const t={title:$('title').value.trim(),result:$('result').value.trim(),eta:$('eta').value.trim(),due:$('due').value,prio:$('prio').value,status:$('status').value,notes:$('notes').value.trim()};
+ if(!t.title) return alert('Pon un título de tarea');
+ tasks.push(t); ['title','result','eta','notes'].forEach(id=>$(id).value=''); save();
+}
+$('clear').onclick=()=>{if(confirm('¿Borrar todas las tareas?')){tasks=[];save();}}
+$('seed').onclick=()=>{
+ tasks=[
+  {title:'Definir Top 3 del día',result:'3 tareas ejecutables',eta:'10m',due:'',prio:'A',status:'Hoy',notes:'No más de 3 prioridades'},
+  {title:'Pipeline contenido LinkedIn',result:'1 post publicado',eta:'60m',due:'',prio:'A',status:'Hoy',notes:'Hook + prueba visual + CTA'},
+  {title:'Seguimiento clientes permisos',result:'respuestas enviadas',eta:'40m',due:'',prio:'A',status:'Semana',notes:'bloque único de mensajes'},
+  {title:'Revisión pyRevit vs Codex',result:'decisión por fase',eta:'45m',due:'',prio:'M',status:'Semana',notes:'qué queda en Revit y qué mueve a Codex'},
+  {title:'Esperando feedback cliente X',result:'respuesta',eta:'5m',due:'',prio:'M',status:'Seguimiento',notes:'recordatorio si >48h'}
+ ]; save();
+}
+render();
+</script>
+</body>
+</html>
