@@ -19,6 +19,16 @@ def m_to_ft(val_m):
     return UnitUtils.ConvertToInternalUnits(val_m, UnitTypeId.Meters)
 
 
+def type_name(elem):
+    try:
+        return elem.Name
+    except Exception:
+        p = elem.get_Parameter(BuiltInParameter.SYMBOL_NAME_PARAM)
+        if p and p.HasValue:
+            return p.AsString() or ""
+        return ""
+
+
 def is_internal_wall(wall):
     try:
         wtype = wall.WallType
@@ -75,7 +85,8 @@ if not symbols:
 keywords = ["toma", "tomacorr", "recept", "outlet", "socket", "enchufe"]
 candidates = []
 for s in symbols:
-    text = ("{} {}".format(s.FamilyName, s.Name)).lower()
+    sname = type_name(s)
+    text = ("{} {}".format(s.FamilyName, sname)).lower()
     if any(k in text for k in keywords):
         candidates.append(s)
 
@@ -84,7 +95,7 @@ if not candidates:
 
 picked = None
 if forms and len(candidates) > 1:
-    opts = ["{} : {}".format(s.FamilyName, s.Name) for s in candidates]
+    opts = ["{} : {}".format(s.FamilyName, type_name(s)) for s in candidates]
     chosen = forms.SelectFromList.show(
         opts,
         title="Selecciona familia/tipo de tomacorriente",
@@ -151,7 +162,7 @@ TaskDialog.Show(
     "ARCH-S",
     "Listo ✅\n\nTipo usado: {} : {}\nMuros internos procesados: {}\nTomacorrientes colocados: {}\nMuros omitidos: {}".format(
         picked.FamilyName,
-        picked.Name,
+        type_name(picked),
         len(walls),
         placed,
         skipped
