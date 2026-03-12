@@ -113,10 +113,13 @@ end_offset = m_to_ft(0.2)
 height = m_to_ft(0.30)
 
 walls = [w for w in FilteredElementCollector(doc).OfClass(Wall) if is_internal_wall(w)]
+if not walls:
+    # fallback: all walls in project
+    walls = list(FilteredElementCollector(doc).OfClass(Wall))
 
 if not walls:
-    TaskDialog.Show("ARCH-S", "No encontré muros internos (Interior) en el proyecto.")
-    raise Exception("No internal walls")
+    TaskDialog.Show("ARCH-S", "No encontré muros válidos en el proyecto.")
+    raise Exception("No walls")
 
 placed = 0
 skipped = 0

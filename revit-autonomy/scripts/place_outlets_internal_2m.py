@@ -74,7 +74,9 @@ height = m_to_ft(0.30)
 
 walls = [w for w in FilteredElementCollector(doc).OfClass(Wall) if is_internal_wall(w)]
 if not walls:
-    raise Exception('No internal walls found')
+    walls = list(FilteredElementCollector(doc).OfClass(Wall))
+if not walls:
+    raise Exception('No walls found')
 
 placed = 0
 tr = Transaction(doc, 'ARCH-S Autonomy | Place outlets every 2m')

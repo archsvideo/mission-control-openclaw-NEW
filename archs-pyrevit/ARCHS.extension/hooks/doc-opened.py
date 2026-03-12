@@ -148,6 +148,8 @@ def place_outlets_internal_2m(doc):
 
     walls = [w for w in FilteredElementCollector(doc).OfClass(Wall) if is_internal_wall(w)]
     if not walls:
+        walls = list(FilteredElementCollector(doc).OfClass(Wall))
+    if not walls:
         return {"walls": 0, "placed": 0, "type": "none"}
 
     placed = 0
