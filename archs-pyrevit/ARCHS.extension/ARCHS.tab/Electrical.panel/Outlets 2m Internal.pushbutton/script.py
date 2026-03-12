@@ -2,8 +2,9 @@
 from Autodesk.Revit.DB import (
     BuiltInCategory, FilteredElementCollector, FamilySymbol,
     BuiltInParameter, Wall, LocationCurve, XYZ, Transaction,
-    StructuralType, UnitUtils, UnitTypeId, WallFunction
+    UnitUtils, UnitTypeId, WallFunction
 )
+from Autodesk.Revit.DB.Structure import StructuralType
 from Autodesk.Revit.UI import TaskDialog
 
 try:
