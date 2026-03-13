@@ -21,6 +21,7 @@ Bridge local para ejecutar comandos de Revit de forma autónoma desde OpenClaw.
 - `create_electrical_views`
 - `place_outlets_internal_2m`
 - `electrical_setup_now` (macro: ambas tareas)
+- `electrical_setup_active` (macro para documento activo de Revit, sin `modelPath`)
 
 ## Arranque
 ```powershell
@@ -32,6 +33,15 @@ powershell -ExecutionPolicy Bypass -File .\revit-bridge\server.ps1 -Token "CAMBI
 $body = @{
   modelPath = "C:/Users/Oscar/Downloads/YOGA FINAL.rvt"
   command = "electrical_setup_now"
+} | ConvertTo-Json
+Invoke-RestMethod -Method Post -Uri "http://127.0.0.1:8765/enqueue" -Headers @{"X-Bridge-Token"="CAMBIAR_TOKEN"} -Body $body -ContentType "application/json"
+```
+
+## Ejemplo documento activo (sin path)
+```powershell
+$body = @{
+  command = "electrical_setup_active"
+  useActiveDocument = $true
 } | ConvertTo-Json
 Invoke-RestMethod -Method Post -Uri "http://127.0.0.1:8765/enqueue" -Headers @{"X-Bridge-Token"="CAMBIAR_TOKEN"} -Body $body -ContentType "application/json"
 ```

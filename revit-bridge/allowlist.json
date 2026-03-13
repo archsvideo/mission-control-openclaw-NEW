@@ -2,6 +2,7 @@
   "commands": [
     "create_electrical_views",
     "place_outlets_internal_2m",
-    "electrical_setup_now"
+    "electrical_setup_now",
+    "electrical_setup_active"
   ]
 }

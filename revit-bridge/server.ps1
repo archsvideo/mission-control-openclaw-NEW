@@ -22,7 +22,7 @@ function Read-Allowlist {
 function New-JobFromRequest($reqObj){
   $command = [string]$reqObj.command
   $modelPath = [string]$reqObj.modelPath
-  if([string]::IsNullOrWhiteSpace($modelPath)){ throw 'modelPath is required' }
+  $useActiveDocument = [bool]$reqObj.useActiveDocument
   if([string]::IsNullOrWhiteSpace($command)){ throw 'command is required' }
 
   switch($command){
@@ -33,6 +33,14 @@ function New-JobFromRequest($reqObj){
       $tasks = @(@{ name = 'place_outlets_internal_2m' })
     }
     'electrical_setup_now' {
+      if([string]::IsNullOrWhiteSpace($modelPath) -and -not $useActiveDocument){ throw 'modelPath is required unless useActiveDocument=true' }
+      $tasks = @(
+        @{ name = 'create_electrical_views' },
+        @{ name = 'place_outlets_internal_2m' }
+      )
+    }
+    'electrical_setup_active' {
+      $useActiveDocument = $true
       $tasks = @(
         @{ name = 'create_electrical_views' },
         @{ name = 'place_outlets_internal_2m' }
@@ -41,12 +49,16 @@ function New-JobFromRequest($reqObj){
     default { throw "unsupported command: $command" }
   }
 
-  return [ordered]@{
+  $job = [ordered]@{
     jobName = "bridge-$command"
-    modelPath = $modelPath
     revit = 2026
     tasks = $tasks
   }
+  if(-not $useActiveDocument){
+    if([string]::IsNullOrWhiteSpace($modelPath)){ throw 'modelPath is required unless useActiveDocument=true' }
+    $job.modelPath = $modelPath
+  }
+  return $job
 }
 
 function Write-JsonResponse($ctx, $statusCode, $obj){
