@@ -16,15 +16,22 @@ $Scripts = Join-Path $Root 'scripts'
 
 function Invoke-Task($model,$task){
   $name = $task.name
+  $jobRevit = $task.revit
+  if(-not $jobRevit){ $jobRevit = 2026 }
+
   if($name -eq 'create_electrical_views'){
     $script = Join-Path $Scripts 'create_electrical_views.py'
-    $cmd = "pyrevit run `"$script`" `"$model`" --revit=2026 --allowdialogs"
-    return @{ ok=$LASTEXITCODE -eq 0; cmd=$cmd; out=(Invoke-Expression $cmd 2>&1 | Out-String) }
+    $cmd = "pyrevit run `"$script`" `"$model`" --revit=$jobRevit --allowdialogs"
+    $out = (Invoke-Expression $cmd 2>&1 | Out-String)
+    $ok = ($LASTEXITCODE -eq 0)
+    return @{ ok=$ok; cmd=$cmd; out=$out }
   }
   elseif($name -eq 'place_outlets_internal_2m'){
     $script = Join-Path $Scripts 'place_outlets_internal_2m.py'
-    $cmd = "pyrevit run `"$script`" `"$model`" --revit=2026 --allowdialogs"
-    return @{ ok=$LASTEXITCODE -eq 0; cmd=$cmd; out=(Invoke-Expression $cmd 2>&1 | Out-String) }
+    $cmd = "pyrevit run `"$script`" `"$model`" --revit=$jobRevit --allowdialogs"
+    $out = (Invoke-Expression $cmd 2>&1 | Out-String)
+    $ok = ($LASTEXITCODE -eq 0)
+    return @{ ok=$ok; cmd=$cmd; out=$out }
   }
   else {
     return @{ ok=$false; cmd=''; out="Unknown task: $name" }
@@ -43,6 +50,7 @@ function Process-One($jobPath){
     if(!(Test-Path $model)){ throw "Model not found: $model" }
 
     foreach($t in $job.tasks){
+      if(-not $t.revit -and $job.revit){ $t | Add-Member -NotePropertyName revit -NotePropertyValue $job.revit -Force }
       $r = Invoke-Task -model $model -task $t
       $report.tasks += [ordered]@{ name=$t.name; ok=$r.ok; output=$r.out; command=$r.cmd }
       if(-not $r.ok){ $report.ok = $false; break }
