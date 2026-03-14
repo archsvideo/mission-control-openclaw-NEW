@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diagnóstico Meta Ads | 2026-03-14</title>
+  <style>
+    :root{--bg:#0b1020;--panel:#121a33;--line:#2b3b6b;--txt:#eaf0ff;--muted:#9fb0d9;--ok:#41d39b;--warn:#ffc857;--bad:#ff5d6c;--info:#6ea8fe}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 20% 0%,#172452,var(--bg));color:var(--txt);font-family:Inter,Segoe UI,Arial,sans-serif}
+    .wrap{max-width:1180px;margin:0 auto;padding:22px}
+    h1{margin:0 0 6px} .sub{color:var(--muted);margin-bottom:16px}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+    .kpi{background:linear-gradient(180deg,#16224a,var(--panel));border:1px solid var(--line);padding:12px;border-radius:12px}
+    .kpi .v{font-size:24px;font-weight:800} .kpi .l{color:var(--muted);font-size:13px}
+    .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .card{background:linear-gradient(180deg,#16224a,var(--panel));border:1px solid var(--line);padding:14px;border-radius:12px}
+    .tag{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;margin-bottom:8px}
+    .ok{background:rgba(65,211,155,.2);border:1px solid rgba(65,211,155,.6);color:#b7f5e0}
+    .warn{background:rgba(255,200,87,.2);border:1px solid rgba(255,200,87,.6);color:#ffe7b3}
+    .bad{background:rgba(255,93,108,.2);border:1px solid rgba(255,93,108,.6);color:#ffc2c8}
+    .info{background:rgba(110,168,254,.2);border:1px solid rgba(110,168,254,.6);color:#d9e8ff}
+    ul{margin:8px 0 0 18px;padding:0} li{margin:5px 0}
+    table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+    th,td{border-bottom:1px solid #263968;padding:8px;text-align:left}
+    th{color:#bdd0ff}
+    .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+    .step{background:#0d1631;border:1px solid #294178;border-radius:10px;padding:10px;text-align:center}
+    .footer{margin-top:14px;color:var(--muted);font-size:12px}
+    @media(max-width:900px){.grid,.cards,.flow{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Meta Ads Diagnóstico + Plan de Ejecución</h1>
+  <div class="sub">Cuenta: <b>act_817997474422827</b> · Business: <b>1152351143457513</b> · Fuente: API Meta (no CSV)</div>
+
+  <div class="grid">
+    <div class="kpi"><div class="v">$2,504.93</div><div class="l">Spend principal (Skylight_Campaign)</div></div>
+    <div class="kpi"><div class="v">6,474</div><div class="l">Link clicks</div></div>
+    <div class="kpi"><div class="v">5,796</div><div class="l">Landing page views</div></div>
+    <div class="kpi"><div class="v">204</div><div class="l">Leads trackeados (pixel)</div></div>
+  </div>
+
+  <div class="cards">
+    <section class="card">
+      <span class="tag ok">✅ LO QUE ESTÁ BIEN</span>
+      <ul>
+        <li><b>CTR alto</b> en Skylight (4.76%) = buen gancho creativo.</li>
+        <li><b>CPC de clic</b> aceptable (0.39 por link click).</li>
+        <li><b>LPV/Click ~89.5%</b> (5796/6474): buena carga/continuidad post-clic.</li>
+        <li>Volumen suficiente para optimizar por segmentos (estado, edad, placement).</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <span class="tag bad">❌ LO QUE ESTÁ MAL</span>
+      <ul>
+        <li>Todas las campañas están en <b>PAUSED</b> (sin aprendizaje reciente).</li>
+        <li>Mix de objetivos (engagement + sales) sin estructura full-funnel clara.</li>
+        <li><b>ROAS histórico muy bajo</b> en Skylight: 537.98 / 2504.93 = <b>0.21</b>.</li>
+        <li>Placements caros drenando: IG Stories (~0.80/link click), IG Feed (~0.56/link click).</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <span class="tag info">📍 GEO (USA) - DÓNDE APRETAR</span>
+      <table>
+        <thead><tr><th>Estado</th><th>Lectura</th><th>Acción</th></tr></thead>
+        <tbody>
+          <tr><td>Michigan</td><td>CTR 5.59% + CPC bajo</td><td>Subir presupuesto</td></tr>
+          <tr><td>Wisconsin</td><td>CTR ~4.98% + CPC bajo</td><td>Escalar</td></tr>
+          <tr><td>Tennessee</td><td>CTR ~5.48% + costo eficiente</td><td>Escalar</td></tr>
+          <tr><td>Kentucky / Arkansas</td><td>Muy buen CTR y costo</td><td>Test dedicado</td></tr>
+          <tr><td>California / New York</td><td>Mucho volumen, CPC/CPM más caros</td><td>Mantener con límite estricto</td></tr>
+        </tbody>
+      </table>
+      <div class="footer">Nota: ranking por eficiencia de clics/engagement; para escala final se confirma con CPA/ROAS por estado.</div>
+    </section>
+
+    <section class="card">
+      <span class="tag warn">🎯 RETARGETING VS ABIERTO</span>
+      <ul>
+        <li><b>Sí vale retargeting</b> (tienes volumen): 5,796 LPV + 204 leads + 69 checkouts.</li>
+        <li>Propuesta: 70% prospecting / 30% retargeting al reiniciar.</li>
+        <li>Retargeting 7/14/30 días: visitantes web, iniciaron checkout, engagers.</li>
+        <li>Excluir compradores para no quemar presupuesto.</li>
+      </ul>
+    </section>
+  </div>
+
+  <div style="margin:16px 0 10px"><h2 style="margin:0">Plan de ejecución (14 días)</h2></div>
+  <div class="flow">
+    <div class="step"><b>Día 1</b><br/>Reactivar estructura limpia</div>
+    <div class="step"><b>Día 2-3</b><br/>Test creativos (3-5 piezas)</div>
+    <div class="step"><b>Día 4-6</b><br/>Corte de placements caros</div>
+    <div class="step"><b>Día 7-10</b><br/>Escalar ganadores + retargeting</div>
+    <div class="step"><b>Día 11-14</b><br/>Optimizar CPA/ROAS + reglas</div>
+  </div>
+
+  <div class="cards" style="margin-top:12px">
+    <section class="card">
+      <span class="tag info">⚙️ ESTRUCTURA RECOMENDADA</span>
+      <ul>
+        <li><b>C1 Prospecting USA</b> (broad + lookalike de lead/comprador)</li>
+        <li><b>C2 Retargeting 30d</b> (LPV, initiate checkout, engagers)</li>
+        <li><b>C3 High Intent</b> (quienes vieron pricing/contacto)</li>
+        <li>Una sola métrica norte por fase: Prospecting→CPL, Retargeting→CPA/ROAS</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <span class="tag warn">🧯 REGLAS DE CONTROL</span>
+      <ul>
+        <li>Pausar adset si gasta &gt; 1.5x CPA objetivo sin conversiones.</li>
+        <li>Subir +20% presupuesto cada 48h solo en ganadores.</li>
+        <li>No tocar más de 1 cambio grande por adset/día (evitar reset learning).</li>
+        <li>Reporte diario automático: spend, CPL, CPA, ROAS, top estado, top creativo.</li>
+      </ul>
+    </section>
+  </div>
+
+  <div class="footer">Próximo paso técnico: conectar website para auditar embudo (LP speed, eventos pixel, fricción de formulario) y cerrar ciclo hasta venta.</div>
+</div>
+</body>
+</html>
