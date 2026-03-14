@@ -2,7 +2,7 @@
 from Autodesk.Revit.DB import (
     BuiltInCategory, FilteredElementCollector, BuiltInParameter,
     Wall, LocationCurve, XYZ, Transaction,
-    UnitUtils, UnitTypeId, WallFunction, Family
+    UnitUtils, UnitTypeId, WallFunction, Family, Line
 )
 from Autodesk.Revit.DB.Structure import StructuralType
 import clr
@@ -31,6 +31,54 @@ def is_internal_wall(w):
 
 def get_symbols(doc):
     return list(FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_ElectricalFixtures).WhereElementIsElementType())
+
+
+def normalize_xy(v):
+    n = (v.X * v.X + v.Y * v.Y) ** 0.5
+    if n < 1e-9:
+        return None
+    return XYZ(v.X / n, v.Y / n, 0.0)
+
+
+def wall_tangent(curve, t_norm):
+    try:
+        der = curve.ComputeDerivatives(t_norm, True)
+        return normalize_xy(der.BasisX)
+    except Exception:
+        p0 = curve.GetEndPoint(0)
+        p1 = curve.GetEndPoint(1)
+        return normalize_xy(XYZ(p1.X - p0.X, p1.Y - p0.Y, 0.0))
+
+
+def wall_normal_from_tangent(tan):
+    if tan is None:
+        return None
+    return XYZ(-tan.Y, tan.X, 0.0)
+
+
+def signed_side_for_wall(w, normal, side_mode):
+    """
+    side_mode: interior | exterior | left | right
+    """
+    if side_mode == 'left':
+        return 1.0
+    if side_mode == 'right':
+        return -1.0
+
+    try:
+        ext = normalize_xy(w.Orientation)
+    except Exception:
+        ext = None
+
+    if ext is None or normal is None:
+        return 1.0
+
+    dot = normal.X * ext.X + normal.Y * ext.Y
+    if side_mode == 'interior':
+        # interior is opposite to exterior orientation
+        return -1.0 if dot >= 0 else 1.0
+    # exterior
+    return 1.0 if dot >= 0 else -1.0
 
 
 def try_load_default(doc):
@@ -71,6 +119,10 @@ picked = candidates[0]
 spacing = m_to_ft(2.0)
 end_offset = m_to_ft(0.2)
 height = m_to_ft(0.30)
+# Lado de colocación en el muro: interior | exterior | left | right
+side_mode = 'interior'
+# Margen para no pegar exactamente sobre la cara (evita fallos geométricos)
+face_clearance = m_to_ft(0.01)
 
 walls = [w for w in FilteredElementCollector(doc).OfClass(Wall) if is_internal_wall(w)]
 if not walls:
@@ -99,9 +151,41 @@ try:
             continue
         d = end_offset
         while d < (length - end_offset):
-            p = curve.Evaluate(d / length, True)
-            p = XYZ(p.X, p.Y, level.Elevation + height)
-            doc.Create.NewFamilyInstance(p, picked, w, level, StructuralType.NonStructural)
+            t_norm = d / length
+            p_center = curve.Evaluate(t_norm, True)
+
+            tan = wall_tangent(curve, t_norm)
+            normal = wall_normal_from_tangent(tan)
+            if normal is None:
+                d += spacing
+                continue
+
+            side_sign = signed_side_for_wall(w, normal, side_mode)
+            half_w = (w.Width * 0.5) if hasattr(w, 'Width') else 0.0
+            lateral = max(half_w - face_clearance, 0.0)
+
+            p_host = XYZ(
+                p_center.X + normal.X * side_sign * lateral,
+                p_center.Y + normal.Y * side_sign * lateral,
+                level.Elevation + height
+            )
+
+            inst = doc.Create.NewFamilyInstance(p_host, picked, w, level, StructuralType.NonStructural)
+
+            # Alinea giro al eje del muro (mejora legibilidad del símbolo en planta)
+            try:
+                locp = inst.Location
+                if locp and hasattr(locp, 'Point') and tan is not None:
+                    p0 = locp.Point
+                    axis = Line.CreateBound(p0, XYZ(p0.X, p0.Y, p0.Z + 1.0))
+                    # ángulo entre X global y tangente del muro
+                    import math
+                    ang = math.atan2(tan.Y, tan.X)
+                    from Autodesk.Revit.DB import ElementTransformUtils
+                    ElementTransformUtils.RotateElement(doc, inst.Id, axis, ang)
+            except Exception:
+                pass
+
             placed += 1
             d += spacing
 
@@ -111,5 +195,6 @@ except Exception:
     raise
 
 print('OUTLET_TYPE={} : {}'.format(picked.FamilyName, type_name(picked)))
+print('SIDE_MODE={}'.format(side_mode))
 print('INTERNAL_WALLS={}'.format(len(walls)))
 print('OUTLETS_PLACED={}'.format(placed))
