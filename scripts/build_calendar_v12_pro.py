@@ -46,7 +46,7 @@ def build(standalone=False):
     parts.append("<h1>Calendario mensual v12 PRO (arquitectura, sin personas)</h1>")
     parts.append("<p class='muted'>Versión profesional con: objetivo de embudo, formato, CTA, hora recomendada, KPI objetivo y prompt detallado por día. Días 1-3 ya generados con Nano Banana 2.</p>")
     parts.append("<div><span class='k'>Canal: LinkedIn</span><span class='k'>Zona: Europe/Madrid</span><span class='k'>Frecuencia: 1 post/día</span><span class='k'>Estilo visual: proyectos arquitectónicos sin personas</span></div><br>")
-    parts.append("<table><thead><tr><th>Día</th><th>Pilar</th><th>Gancho</th><th>Embudo</th><th>Formato</th><th>CTA</th><th>Hora</th><th>KPI objetivo</th><th>Prompt imagen (detallado)</th><th>Preview</th><th>Estado</th></tr></thead><tbody>")
+    parts.append("<table><thead><tr><th>Día</th><th>Pilar</th><th>Gancho</th><th>Embudo</th><th>Formato</th><th>CTA</th><th>Hora</th><th>KPI objetivo</th><th>Prompt imagen (detallado)</th><th>Preview</th><th>Publicado</th></tr></thead><tbody>")
 
     for r in rows:
         d = int(r['day'])
@@ -54,7 +54,6 @@ def build(standalone=False):
         funnel, fmt, cta, t, kpi = pillar_map.get(pillar, ('Consideration', 'Imagen', 'Guardar', '12:00', 'ER'))
         src = img_src(d, standalone=standalone)
         preview = f"<img src='{src}' alt='dia {d}'>" if src else "<span class='muted'>Pendiente</span>"
-        estado = "Generada" if d <= 3 else "Pendiente"
         parts.append(
             "<tr>"
             f"<td>{d}</td>"
@@ -67,7 +66,7 @@ def build(standalone=False):
             f"<td class='small'>{html.escape(kpi)}</td>"
             f"<td class='small'>{html.escape(r['image_prompt_detailed'])}</td>"
             f"<td>{preview}</td>"
-            f"<td>{estado}</td>"
+            f"<td><label><input type='checkbox'/> Listo</label></td>"
             "</tr>"
         )
 
