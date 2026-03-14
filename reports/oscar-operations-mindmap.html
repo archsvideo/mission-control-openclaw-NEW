@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapa Operativo - Oscar</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#121a33;
+      --text:#eaf0ff;
+      --muted:#9fb0d9;
+      --red:#ff5d6c;
+      --yellow:#ffc857;
+      --green:#41d39b;
+      --blue:#6ea8fe;
+      --line:#2b3b6b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at 20% 0%,#16224a, var(--bg));color:var(--text)}
+    .wrap{max-width:1200px;margin:0 auto;padding:24px}
+    h1{margin:0 0 8px;font-size:30px}
+    .sub{color:var(--muted);margin-bottom:18px}
+    .board{display:grid;grid-template-columns:repeat(2,minmax(280px,1fr));gap:16px}
+    .board-3{display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:12px}
+    .card{background:linear-gradient(180deg,#16224a,var(--panel));border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .tag{display:inline-block;padding:4px 10px;border-radius:999px;font-weight:700;font-size:12px;margin-bottom:10px}
+    .red{background:rgba(255,93,108,.18);color:#ffb7be;border:1px solid rgba(255,93,108,.5)}
+    .yellow{background:rgba(255,200,87,.18);color:#ffe1a4;border:1px solid rgba(255,200,87,.5)}
+    .green{background:rgba(65,211,155,.18);color:#b5f2de;border:1px solid rgba(65,211,155,.5)}
+    .blue{background:rgba(110,168,254,.18);color:#cfe1ff;border:1px solid rgba(110,168,254,.5)}
+    h2{margin:0 0 8px;font-size:20px}
+    ul{margin:10px 0 0 18px;padding:0}
+    li{margin:6px 0;color:#d9e4ff}
+    .line{margin:20px 0;border-top:1px dashed var(--line)}
+    .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .step{background:#0d1631;border:1px solid #294178;border-radius:12px;padding:12px;text-align:center}
+    .step b{display:block;margin-bottom:6px}
+    .week{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+    .day{background:#0d1631;border:1px solid #294178;border-radius:12px;padding:10px;text-align:center}
+    .footer{margin-top:18px;color:var(--muted);font-size:13px}
+    @media (max-width:900px){.board,.flow,.week{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Mapa Operativo de Oscar</h1>
+    <div class="sub">Simple, visual y accionable (prioridad por impacto en caja)</div>
+
+    <div class="board">
+      <section class="card">
+        <span class="tag red">🔴 PRIORIDAD 1</span>
+        <h2>Meta Ads (Ventas)</h2>
+        <ul>
+          <li>Analizar campañas activas (30 días)</li>
+          <li>Pausar lo que quema presupuesto</li>
+          <li>Escalar lo que convierte</li>
+          <li>Definir alertas de CPA/CPL</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <span class="tag yellow">🟡 PRIORIDAD 2</span>
+        <h2>Contenido + Calendario</h2>
+        <ul>
+          <li>Cerrar pendientes de imágenes</li>
+          <li>Publicación semanal constante</li>
+          <li>Reutilizar formatos que ya funcionaron</li>
+          <li>Conectar contenido con oferta/comercial</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <span class="tag green">🟢 PRIORIDAD 3</span>
+        <h2>Revit (Operación)</h2>
+        <ul>
+          <li>Terminar script outlets por wall-face</li>
+          <li>Estandarizar plantillas de automatización</li>
+          <li>Menos trabajo manual repetitivo</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <span class="tag blue">🔵 PRIORIDAD 4</span>
+        <h2>Paperclip (Infraestructura)</h2>
+        <ul>
+          <li>Corregir acceso/UI (failed to fetch)</li>
+          <li>Entender flujo base sin prisa</li>
+          <li>Usarlo para reportes y coordinación</li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="line"></div>
+
+    <h2>Backlog futuro (alto potencial)</h2>
+    <div class="board-3">
+      <section class="card">
+        <span class="tag blue">🚀 FUTURO</span>
+        <h2>Trading Bot (con control)</h2>
+        <ul>
+          <li>Fase 1: solo lectura/análisis API</li>
+          <li>Fase 2: señales + aprobación humana</li>
+          <li>Fase 3: ejecución limitada (sandbox)</li>
+        </ul>
+      </section>
+      <section class="card">
+        <span class="tag blue">⚙️ FUTURO</span>
+        <h2>Centro de KPIs</h2>
+        <ul>
+          <li>Meta Ads + Leads + Cierre ventas</li>
+          <li>Dashboard semanal automático</li>
+          <li>Alertas de desvío (CPA/CPL)</li>
+        </ul>
+      </section>
+      <section class="card">
+        <span class="tag blue">🧠 FUTURO</span>
+        <h2>Sistema Operativo ARCH-S</h2>
+        <ul>
+          <li>Playbooks por área (ventas/marketing/ops)</li>
+          <li>Automaciones con checklist</li>
+          <li>Menos caos, más repetibilidad</li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="line"></div>
+
+    <h2>Flujo diario recomendado</h2>
+    <div class="flow">
+      <div class="step"><b>1. Vender</b>Meta Ads: revisar y optimizar</div>
+      <div class="step"><b>2. Alimentar</b>Contenido + calendario</div>
+      <div class="step"><b>3. Automatizar</b>Revit scripts y QA</div>
+      <div class="step"><b>4. Ordenar</b>Paperclip y sistema</div>
+    </div>
+
+    <div class="line"></div>
+
+    <h2>Semana tipo (enfoque)</h2>
+    <div class="week">
+      <div class="day"><b>Lun</b><br/>Meta Ads</div>
+      <div class="day"><b>Mar</b><br/>Meta Ads + Ajustes</div>
+      <div class="day"><b>Mié</b><br/>Contenido</div>
+      <div class="day"><b>Jue</b><br/>Contenido + Publicación</div>
+      <div class="day"><b>Vie</b><br/>Revit + Paperclip</div>
+    </div>
+
+    <div class="footer">Regla clave: si hay duda, priorizar lo que impacta caja en 7-14 días.</div>
+  </div>
+</body>
+</html>
