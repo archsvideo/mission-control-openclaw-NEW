@@ -1,0 +1,74 @@
+{
+  "gtm": {
+    "accounts": [
+      {
+        "accountId": "6319280242",
+        "name": "Archs",
+        "containers": [
+          {
+            "containerId": "232612625",
+            "name": "skylightcabin.arch-s.com",
+            "publicId": "GTM-KHZLDLSG",
+            "workspaces": [
+              {
+                "workspaceId": "7",
+                "name": "Default Workspace",
+                "tagCount": 1,
+                "triggerCount": 0,
+                "variableCount": 0,
+                "tagNames": [
+                  "Google Analytics"
+                ],
+                "triggerNames": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "ga4": {
+    "properties": [
+      {
+        "property": "properties/490805962",
+        "displayName": "Archs Design Studio",
+        "propertyType": "PROPERTY_TYPE_ORDINARY",
+        "parentAccount": "accounts/356501208",
+        "conversionEvents": [
+          {
+            "eventName": "purchase",
+            "countingMethod": "ONCE_PER_EVENT",
+            "createTime": "2025-05-28T17:18:07.380196Z"
+          }
+        ],
+        "customDimensions": [],
+        "customMetrics": []
+      },
+      {
+        "property": "properties/514985064",
+        "displayName": "Arch-s",
+        "propertyType": "PROPERTY_TYPE_ORDINARY",
+        "parentAccount": "accounts/376567254",
+        "conversionEvents": [
+          {
+            "eventName": "close_convert_lead",
+            "countingMethod": "ONCE_PER_EVENT",
+            "createTime": "2025-12-03T11:43:19.852105Z"
+          },
+          {
+            "eventName": "qualify_lead",
+            "countingMethod": "ONCE_PER_EVENT",
+            "createTime": "2025-12-03T11:43:19.852105Z"
+          },
+          {
+            "eventName": "purchase",
+            "countingMethod": "ONCE_PER_EVENT",
+            "createTime": "2025-12-03T11:48:07.971084Z"
+          }
+        ],
+        "customDimensions": [],
+        "customMetrics": []
+      }
+    ]
+  }
+}

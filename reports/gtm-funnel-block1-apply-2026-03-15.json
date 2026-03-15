@@ -1,0 +1,31 @@
+{
+  "created": {
+    "variables": [],
+    "triggers": [
+      {
+        "name": "CE - select_foundation",
+        "triggerId": "13"
+      },
+      {
+        "name": "CE - add_to_cart",
+        "triggerId": "14"
+      },
+      {
+        "name": "CE - begin_checkout",
+        "triggerId": "15"
+      },
+      {
+        "name": "CE - purchase",
+        "triggerId": "16"
+      }
+    ],
+    "tags": []
+  },
+  "errors": [
+    "tag select_bedroom: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/7/tags?alt=json returned \"vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\". Details: \"[{'message': 'vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\\n', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "tag select_foundation: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/7/tags?alt=json returned \"vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\". Details: \"[{'message': 'vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\\n', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "tag add_to_cart: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/7/tags?alt=json returned \"vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\". Details: \"[{'message': 'vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\\n', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "tag begin_checkout: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/7/tags?alt=json returned \"vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\". Details: \"[{'message': 'vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\\n', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "tag purchase: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/7/tags?alt=json returned \"vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\". Details: \"[{'message': 'vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\\n', 'domain': 'global', 'reason': 'badRequest'}]\">"
+  ]
+}

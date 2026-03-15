@@ -1,0 +1,869 @@
+{
+  "tags": [
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/tags/5",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "tagId": "5",
+      "name": "Google Analytics",
+      "type": "googtag",
+      "parameter": [
+        {
+          "type": "template",
+          "key": "tagId",
+          "value": "G-1J2781XXKP"
+        }
+      ],
+      "fingerprint": "1764770489543",
+      "firingTriggerId": [
+        "2147479553"
+      ],
+      "tagFiringOption": "oncePerEvent",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/tags/5?apiLink=tag",
+      "monitoringMetadata": {
+        "type": "map"
+      },
+      "consentSettings": {
+        "consentStatus": "notSet"
+      }
+    },
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/tags/17",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "tagId": "17",
+      "name": "GA4 - select_bedroom",
+      "type": "gaawe",
+      "parameter": [
+        {
+          "type": "list",
+          "key": "eventSettingsTable",
+          "list": [
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "value"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - value}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "currency"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - currency}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "event_id"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - event_id}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "bedroom_type"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - bedroom_type}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "foundation_type"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - foundation_type}}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "template",
+          "key": "eventName",
+          "value": "select_bedroom"
+        },
+        {
+          "type": "template",
+          "key": "measurementIdOverride",
+          "value": "G-1J2781XXKP"
+        }
+      ],
+      "fingerprint": "1773582743482",
+      "firingTriggerId": [
+        "12"
+      ],
+      "tagFiringOption": "oncePerEvent",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/tags/17?apiLink=tag",
+      "consentSettings": {
+        "consentStatus": "notSet"
+      }
+    },
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/tags/18",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "tagId": "18",
+      "name": "GA4 - select_foundation",
+      "type": "gaawe",
+      "parameter": [
+        {
+          "type": "list",
+          "key": "eventSettingsTable",
+          "list": [
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "value"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - value}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "currency"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - currency}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "event_id"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - event_id}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "bedroom_type"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - bedroom_type}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "foundation_type"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - foundation_type}}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "template",
+          "key": "eventName",
+          "value": "select_foundation"
+        },
+        {
+          "type": "template",
+          "key": "measurementIdOverride",
+          "value": "G-1J2781XXKP"
+        }
+      ],
+      "fingerprint": "1773582744432",
+      "firingTriggerId": [
+        "13"
+      ],
+      "tagFiringOption": "oncePerEvent",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/tags/18?apiLink=tag",
+      "consentSettings": {
+        "consentStatus": "notSet"
+      }
+    },
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/tags/19",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "tagId": "19",
+      "name": "GA4 - add_to_cart",
+      "type": "gaawe",
+      "parameter": [
+        {
+          "type": "list",
+          "key": "eventSettingsTable",
+          "list": [
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "value"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - value}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "currency"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - currency}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "event_id"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - event_id}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "bedroom_type"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - bedroom_type}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "foundation_type"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - foundation_type}}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "template",
+          "key": "eventName",
+          "value": "add_to_cart"
+        },
+        {
+          "type": "template",
+          "key": "measurementIdOverride",
+          "value": "G-1J2781XXKP"
+        }
+      ],
+      "fingerprint": "1773582744918",
+      "firingTriggerId": [
+        "14"
+      ],
+      "tagFiringOption": "oncePerEvent",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/tags/19?apiLink=tag",
+      "consentSettings": {
+        "consentStatus": "notSet"
+      }
+    },
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/tags/20",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "tagId": "20",
+      "name": "GA4 - begin_checkout",
+      "type": "gaawe",
+      "parameter": [
+        {
+          "type": "list",
+          "key": "eventSettingsTable",
+          "list": [
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "value"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - value}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "currency"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - currency}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "event_id"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - event_id}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "bedroom_type"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - bedroom_type}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "foundation_type"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - foundation_type}}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "template",
+          "key": "eventName",
+          "value": "begin_checkout"
+        },
+        {
+          "type": "template",
+          "key": "measurementIdOverride",
+          "value": "G-1J2781XXKP"
+        }
+      ],
+      "fingerprint": "1773582745748",
+      "firingTriggerId": [
+        "15"
+      ],
+      "tagFiringOption": "oncePerEvent",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/tags/20?apiLink=tag",
+      "consentSettings": {
+        "consentStatus": "notSet"
+      }
+    },
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/tags/21",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "tagId": "21",
+      "name": "GA4 - purchase",
+      "type": "gaawe",
+      "parameter": [
+        {
+          "type": "list",
+          "key": "eventSettingsTable",
+          "list": [
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "value"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - value}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "currency"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - currency}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "event_id"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - event_id}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "bedroom_type"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - bedroom_type}}"
+                }
+              ]
+            },
+            {
+              "type": "map",
+              "map": [
+                {
+                  "type": "template",
+                  "key": "parameter",
+                  "value": "foundation_type"
+                },
+                {
+                  "type": "template",
+                  "key": "parameterValue",
+                  "value": "{{DLV - foundation_type}}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "template",
+          "key": "eventName",
+          "value": "purchase"
+        },
+        {
+          "type": "template",
+          "key": "measurementIdOverride",
+          "value": "G-1J2781XXKP"
+        }
+      ],
+      "fingerprint": "1773582746490",
+      "firingTriggerId": [
+        "16"
+      ],
+      "tagFiringOption": "oncePerEvent",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/tags/21?apiLink=tag",
+      "consentSettings": {
+        "consentStatus": "notSet"
+      }
+    }
+  ],
+  "triggers": [
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/triggers/12",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "triggerId": "12",
+      "name": "CE - select_bedroom",
+      "type": "customEvent",
+      "customEventFilter": [
+        {
+          "type": "equals",
+          "parameter": [
+            {
+              "type": "template",
+              "key": "arg0",
+              "value": "{{_event}}"
+            },
+            {
+              "type": "template",
+              "key": "arg1",
+              "value": "select_bedroom"
+            }
+          ]
+        }
+      ],
+      "fingerprint": "1773582656123",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/triggers/12?apiLink=trigger"
+    },
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/triggers/13",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "triggerId": "13",
+      "name": "CE - select_foundation",
+      "type": "customEvent",
+      "customEventFilter": [
+        {
+          "type": "equals",
+          "parameter": [
+            {
+              "type": "template",
+              "key": "arg0",
+              "value": "{{_event}}"
+            },
+            {
+              "type": "template",
+              "key": "arg1",
+              "value": "select_foundation"
+            }
+          ]
+        }
+      ],
+      "fingerprint": "1773582708877",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/triggers/13?apiLink=trigger"
+    },
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/triggers/14",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "triggerId": "14",
+      "name": "CE - add_to_cart",
+      "type": "customEvent",
+      "customEventFilter": [
+        {
+          "type": "equals",
+          "parameter": [
+            {
+              "type": "template",
+              "key": "arg0",
+              "value": "{{_event}}"
+            },
+            {
+              "type": "template",
+              "key": "arg1",
+              "value": "add_to_cart"
+            }
+          ]
+        }
+      ],
+      "fingerprint": "1773582710484",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/triggers/14?apiLink=trigger"
+    },
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/triggers/15",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "triggerId": "15",
+      "name": "CE - begin_checkout",
+      "type": "customEvent",
+      "customEventFilter": [
+        {
+          "type": "equals",
+          "parameter": [
+            {
+              "type": "template",
+              "key": "arg0",
+              "value": "{{_event}}"
+            },
+            {
+              "type": "template",
+              "key": "arg1",
+              "value": "begin_checkout"
+            }
+          ]
+        }
+      ],
+      "fingerprint": "1773582712127",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/triggers/15?apiLink=trigger"
+    },
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/triggers/16",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "triggerId": "16",
+      "name": "CE - purchase",
+      "type": "customEvent",
+      "customEventFilter": [
+        {
+          "type": "equals",
+          "parameter": [
+            {
+              "type": "template",
+              "key": "arg0",
+              "value": "{{_event}}"
+            },
+            {
+              "type": "template",
+              "key": "arg1",
+              "value": "purchase"
+            }
+          ]
+        }
+      ],
+      "fingerprint": "1773582713675",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/triggers/16?apiLink=trigger"
+    }
+  ],
+  "variables": [
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/variables/6",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "variableId": "6",
+      "name": "DLV - event_name",
+      "type": "v",
+      "parameter": [
+        {
+          "type": "boolean",
+          "key": "setDefaultValue",
+          "value": "false"
+        },
+        {
+          "type": "template",
+          "key": "name",
+          "value": "event_name"
+        }
+      ],
+      "fingerprint": "1773582640305",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/variables/6?apiLink=variable"
+    },
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/variables/7",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "variableId": "7",
+      "name": "DLV - value",
+      "type": "v",
+      "parameter": [
+        {
+          "type": "boolean",
+          "key": "setDefaultValue",
+          "value": "false"
+        },
+        {
+          "type": "template",
+          "key": "name",
+          "value": "value"
+        }
+      ],
+      "fingerprint": "1773582643209",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/variables/7?apiLink=variable"
+    },
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/variables/8",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "variableId": "8",
+      "name": "DLV - currency",
+      "type": "v",
+      "parameter": [
+        {
+          "type": "boolean",
+          "key": "setDefaultValue",
+          "value": "false"
+        },
+        {
+          "type": "template",
+          "key": "name",
+          "value": "currency"
+        }
+      ],
+      "fingerprint": "1773582645539",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/variables/8?apiLink=variable"
+    },
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/variables/9",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "variableId": "9",
+      "name": "DLV - event_id",
+      "type": "v",
+      "parameter": [
+        {
+          "type": "boolean",
+          "key": "setDefaultValue",
+          "value": "false"
+        },
+        {
+          "type": "template",
+          "key": "name",
+          "value": "event_id"
+        }
+      ],
+      "fingerprint": "1773582648360",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/variables/9?apiLink=variable"
+    },
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/variables/10",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "variableId": "10",
+      "name": "DLV - bedroom_type",
+      "type": "v",
+      "parameter": [
+        {
+          "type": "boolean",
+          "key": "setDefaultValue",
+          "value": "false"
+        },
+        {
+          "type": "template",
+          "key": "name",
+          "value": "bedroom_type"
+        }
+      ],
+      "fingerprint": "1773582650890",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/variables/10?apiLink=variable"
+    },
+    {
+      "path": "accounts/6319280242/containers/232612625/workspaces/7/variables/11",
+      "accountId": "6319280242",
+      "containerId": "232612625",
+      "workspaceId": "7",
+      "variableId": "11",
+      "name": "DLV - foundation_type",
+      "type": "v",
+      "parameter": [
+        {
+          "type": "boolean",
+          "key": "setDefaultValue",
+          "value": "false"
+        },
+        {
+          "type": "template",
+          "key": "name",
+          "value": "foundation_type"
+        }
+      ],
+      "fingerprint": "1773582653702",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6319280242/containers/232612625/workspaces/7/variables/11?apiLink=variable"
+    }
+  ]
+}

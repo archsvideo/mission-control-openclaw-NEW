@@ -1,0 +1,25 @@
+{
+  "created": [
+    {
+      "name": "GA4 - select_bedroom",
+      "tagId": "17"
+    },
+    {
+      "name": "GA4 - select_foundation",
+      "tagId": "18"
+    },
+    {
+      "name": "GA4 - add_to_cart",
+      "tagId": "19"
+    },
+    {
+      "name": "GA4 - begin_checkout",
+      "tagId": "20"
+    },
+    {
+      "name": "GA4 - purchase",
+      "tagId": "21"
+    }
+  ],
+  "errors": []
+}
