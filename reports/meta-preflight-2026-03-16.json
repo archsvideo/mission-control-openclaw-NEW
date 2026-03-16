@@ -1,0 +1,30 @@
+{
+  "account": {
+    "id": "act_817997474422827",
+    "name": "Archs Ads Acount ",
+    "account_status": 1,
+    "currency": "USD",
+    "amount_spent": "325059"
+  },
+  "campaign": {
+    "id": "120244890614810334",
+    "name": "Skylight_Conv_v2_20day",
+    "status": "ACTIVE",
+    "effective_status": "ACTIVE",
+    "objective": "OUTCOME_SALES"
+  },
+  "adset": {
+    "id": "120244890638770334",
+    "name": "Skylight_Prospecting_US_25-65_20day",
+    "status": "ACTIVE",
+    "effective_status": "ACTIVE",
+    "daily_budget": "2000",
+    "optimization_goal": "OFFSITE_CONVERSIONS"
+  },
+  "ads": {
+    "total": 7,
+    "with_issues": 7,
+    "active_like": 0
+  },
+  "ok": true
+}

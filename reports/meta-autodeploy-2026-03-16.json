@@ -1,0 +1,214 @@
+{
+  "steps": [
+    {
+      "campaign_active": {
+        "ok": true,
+        "data": {
+          "success": true
+        }
+      }
+    },
+    {
+      "adset_active": {
+        "ok": true,
+        "data": {
+          "success": true
+        }
+      }
+    },
+    {
+      "pause_with_issues": {
+        "ad_id": "120244969535830334",
+        "name": "Skylight_ReuseCreative_3",
+        "result": {
+          "ok": true,
+          "data": {
+            "success": true
+          }
+        }
+      }
+    },
+    {
+      "pause_with_issues": {
+        "ad_id": "120244969531490334",
+        "name": "Skylight_ReuseCreative_2",
+        "result": {
+          "ok": true,
+          "data": {
+            "success": true
+          }
+        }
+      }
+    },
+    {
+      "pause_with_issues": {
+        "ad_id": "120244969493180334",
+        "name": "Skylight_ReuseCreative_1",
+        "result": {
+          "ok": true,
+          "data": {
+            "success": true
+          }
+        }
+      }
+    },
+    {
+      "pause_with_issues": {
+        "ad_id": "120244967226780334",
+        "name": "Skylight_NewSet_Reuse_3",
+        "result": {
+          "ok": true,
+          "data": {
+            "success": true
+          }
+        }
+      }
+    },
+    {
+      "pause_with_issues": {
+        "ad_id": "120244967225320334",
+        "name": "Skylight_NewSet_Reuse_2",
+        "result": {
+          "ok": true,
+          "data": {
+            "success": true
+          }
+        }
+      }
+    },
+    {
+      "pause_with_issues": {
+        "ad_id": "120244967224430334",
+        "name": "Skylight_NewSet_Reuse_1",
+        "result": {
+          "ok": true,
+          "data": {
+            "success": true
+          }
+        }
+      }
+    },
+    {
+      "pause_with_issues": {
+        "ad_id": "120244967213270334",
+        "name": "Skylight_ReuseCreative_1",
+        "result": {
+          "ok": true,
+          "data": {
+            "success": true
+          }
+        }
+      }
+    }
+  ],
+  "created_ads": [
+    {
+      "name": "AutoDeploy_Reuse_1_1773697439",
+      "creative_id": "863697389512954",
+      "ad_id": "120244970695030334"
+    },
+    {
+      "name": "AutoDeploy_Reuse_2_1773697442",
+      "creative_id": "1501145054513234",
+      "ad_id": "120244970695860334"
+    },
+    {
+      "name": "AutoDeploy_Reuse_3_1773697445",
+      "creative_id": "1486699365749586",
+      "ad_id": "120244970696700334"
+    }
+  ],
+  "errors": [],
+  "final": {
+    "campaign": {
+      "id": "120244890614810334",
+      "name": "Skylight_Conv_v2_20day",
+      "status": "ACTIVE",
+      "effective_status": "ACTIVE"
+    },
+    "adset": {
+      "id": "120244890638770334",
+      "name": "Skylight_Prospecting_US_25-65_20day",
+      "status": "ACTIVE",
+      "effective_status": "ACTIVE",
+      "daily_budget": "2000"
+    },
+    "ads": [
+      {
+        "id": "120244970696700334",
+        "name": "AutoDeploy_Reuse_3_1773697445",
+        "status": "ACTIVE",
+        "effective_status": "IN_PROCESS",
+        "updated_time": "2026-03-16T23:44:05+0200"
+      },
+      {
+        "id": "120244970695860334",
+        "name": "AutoDeploy_Reuse_2_1773697442",
+        "status": "ACTIVE",
+        "effective_status": "IN_PROCESS",
+        "updated_time": "2026-03-16T23:44:02+0200"
+      },
+      {
+        "id": "120244970695030334",
+        "name": "AutoDeploy_Reuse_1_1773697439",
+        "status": "ACTIVE",
+        "effective_status": "IN_PROCESS",
+        "updated_time": "2026-03-16T23:43:59+0200"
+      },
+      {
+        "id": "120244967213270334",
+        "name": "Skylight_ReuseCreative_1",
+        "status": "PAUSED",
+        "effective_status": "IN_PROCESS",
+        "updated_time": "2026-03-16T23:43:57+0200"
+      },
+      {
+        "id": "120244967224430334",
+        "name": "Skylight_NewSet_Reuse_1",
+        "status": "PAUSED",
+        "effective_status": "IN_PROCESS",
+        "updated_time": "2026-03-16T23:43:56+0200"
+      },
+      {
+        "id": "120244967225320334",
+        "name": "Skylight_NewSet_Reuse_2",
+        "status": "PAUSED",
+        "effective_status": "IN_PROCESS",
+        "updated_time": "2026-03-16T23:43:54+0200"
+      },
+      {
+        "id": "120244967226780334",
+        "name": "Skylight_NewSet_Reuse_3",
+        "status": "PAUSED",
+        "effective_status": "IN_PROCESS",
+        "updated_time": "2026-03-16T23:43:52+0200"
+      },
+      {
+        "id": "120244969493180334",
+        "name": "Skylight_ReuseCreative_1",
+        "status": "PAUSED",
+        "effective_status": "IN_PROCESS",
+        "updated_time": "2026-03-16T23:43:50+0200"
+      },
+      {
+        "id": "120244969531490334",
+        "name": "Skylight_ReuseCreative_2",
+        "status": "PAUSED",
+        "effective_status": "IN_PROCESS",
+        "updated_time": "2026-03-16T23:43:48+0200"
+      },
+      {
+        "id": "120244969535830334",
+        "name": "Skylight_ReuseCreative_3",
+        "status": "PAUSED",
+        "effective_status": "IN_PROCESS",
+        "updated_time": "2026-03-16T23:43:46+0200"
+      }
+    ],
+    "counts": {
+      "active_like": 3,
+      "with_issues": 0,
+      "total": 10
+    }
+  }
+}
