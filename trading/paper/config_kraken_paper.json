@@ -1,0 +1,22 @@
+{
+  "mode": "paper",
+  "execution_venue": "kraken",
+  "send_live_orders": false,
+  "universe": ["XBT/USD", "ETH/USD", "SOL/USD"],
+  "risk": {
+    "max_risk_per_trade_pct": 0.5,
+    "max_daily_drawdown_pct": 2.0,
+    "kill_switch_after_consecutive_losses": 3
+  },
+  "source_models": [
+    {"name": "Liafe", "weight": 0.35, "status": "active"},
+    {"name": "zmieko", "weight": 0.35, "status": "active"},
+    {"name": "PerkFarming", "weight": 0.20, "status": "active"},
+    {"name": "withdrawal of funds", "weight": 0.10, "status": "active-limited"},
+    {"name": "Maj.22", "weight": 0.00, "status": "watchlist"}
+  ],
+  "frozen_bybit_reference": {
+    "authoritative": "reports/bybit_final_verification_top5_2026-03-18.md",
+    "supplemental": "reports/bybit_trader_audit_refined_2026-03-18.md"
+  }
+}
