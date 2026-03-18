@@ -9,11 +9,46 @@
     "kill_switch_after_consecutive_losses": 3
   },
   "source_models": [
-    {"name": "Liafe", "weight": 0.35, "status": "active"},
-    {"name": "zmieko", "weight": 0.35, "status": "active"},
-    {"name": "PerkFarming", "weight": 0.20, "status": "active"},
-    {"name": "withdrawal of funds", "weight": 0.10, "status": "active-limited"},
-    {"name": "Maj.22", "weight": 0.00, "status": "watchlist"}
+    {
+      "name": "Liafe",
+      "weight": 0.35,
+      "status": "active",
+      "session_utc": [6,7,8,9,10,11,12,13,14,15,16],
+      "pair_bias": ["XBT/USD", "ETH/USD"],
+      "style": "balanced_swing"
+    },
+    {
+      "name": "zmieko",
+      "weight": 0.35,
+      "status": "active",
+      "session_utc": [12,13,14,15,16,17,18,19,20,21],
+      "pair_bias": ["ETH/USD", "SOL/USD"],
+      "style": "momentum_controlled"
+    },
+    {
+      "name": "PerkFarming",
+      "weight": 0.20,
+      "status": "active",
+      "session_utc": [0,1,2,3,4,5,20,21,22,23],
+      "pair_bias": ["SOL/USD", "XBT/USD"],
+      "style": "higher_frequency"
+    },
+    {
+      "name": "withdrawal of funds",
+      "weight": 0.10,
+      "status": "active-limited",
+      "session_utc": [7,8,9,10,11,17,18,19],
+      "pair_bias": ["XBT/USD"],
+      "style": "opportunistic"
+    },
+    {
+      "name": "Maj.22",
+      "weight": 0.00,
+      "status": "watchlist",
+      "session_utc": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+      "pair_bias": ["XBT/USD"],
+      "style": "watch_only"
+    }
   ],
   "frozen_bybit_reference": {
     "authoritative": "reports/bybit_final_verification_top5_2026-03-18.md",

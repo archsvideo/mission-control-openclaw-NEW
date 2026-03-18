@@ -154,10 +154,19 @@ def main():
 
     # 2) Open at most one new simulated position per cycle
     if len(state["open_positions"]) == 0:
+        hour_utc = datetime.now(timezone.utc).hour
         models = [m for m in cfg["source_models"] if m["status"].startswith("active") and m["weight"] > 0]
-        dominant = max(models, key=lambda x: x["weight"])["name"] if models else "blend"
 
-        for pair in cfg["universe"]:
+        # prioritize models that are "active" in the current UTC hour
+        active_now = [m for m in models if hour_utc in m.get("session_utc", [])]
+        selected = max(active_now, key=lambda x: x["weight"]) if active_now else (max(models, key=lambda x: x["weight"]) if models else {"name": "blend", "pair_bias": []})
+        dominant = selected["name"]
+
+        # pair order = model pair bias first, then rest of universe
+        pair_bias = selected.get("pair_bias", [])
+        pair_order = pair_bias + [p for p in cfg["universe"] if p not in pair_bias]
+
+        for pair in pair_order:
             closes, highs, lows = kraken_ohlc(pair, interval=60, count=220)
             e_fast = ema(closes, 20)[-1]
             e_slow = ema(closes, 50)[-1]
@@ -166,15 +175,16 @@ def main():
             a = atr(highs, lows, closes, 14)
 
             direction = None
-            if e_fast > e_slow and 52 <= r <= 70:
+            # slightly more sensitive entry while keeping trend filter
+            if e_fast > e_slow and 50 <= r <= 72:
                 direction = "LONG"
-            elif e_fast < e_slow and 30 <= r <= 48:
+            elif e_fast < e_slow and 28 <= r <= 50:
                 direction = "SHORT"
 
             if direction is None:
                 continue
 
-            stop_dist = max(a, price * 0.006)
+            stop_dist = max(a, price * 0.0055)
             risk_amt = state["equity"] * (risk["max_risk_per_trade_pct"] / 100)
             qty = risk_amt / stop_dist
 
@@ -195,10 +205,10 @@ def main():
                 "take_profit": tp,
                 "qty": qty,
                 "risk_amount": risk_amt,
-                "reason_entry": f"EMA20/50 trend + RSI filter (rsi={r:.1f})",
+                "reason_entry": f"{dominant} session-model | EMA20/50 + RSI (rsi={r:.1f}, utc={hour_utc})",
             }
             state["open_positions"].append(pos)
-            print(f"OPENED_PAPER_{direction}_{pair}")
+            print(f"OPENED_PAPER_{direction}_{pair}_{dominant}")
             break
 
     save_json(STATE_PATH, state)
