@@ -1,0 +1,163 @@
+{
+  "issues_ads": [
+    {
+      "id": "120244986730800334",
+      "name": "BestCreative_2",
+      "status": "PAUSED",
+      "effective_status": "WITH_ISSUES",
+      "configured_status": "PAUSED",
+      "creative": {
+        "id": "1549124649664292",
+        "name": "{{product.name}} 2025-11-26-f2fd61f83bb2bfcc2fff58850e05ee14"
+      },
+      "issues_info": [
+        {
+          "level": "AD",
+          "error_code": 2490085,
+          "error_summary": "La clave de recorte de 191 x 100 para los anuncios con imagen está obsoleta.",
+          "error_message": "La clave de recorte de 191 x 100 para los anuncios con imagen está obsoleta.: La clave de recorte de 191 x 100 ya no estará disponible en la última versión de la API de anuncios. La clave recorte recomendada será de 100 x 100.",
+          "error_type": "HARD_ERROR",
+          "mid": "b39b773b42883402a3de30efdbdb7a7d"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "create_backup_ad",
+      "source_creative": "1558845635143326",
+      "new_ad_id": "120245050523350334"
+    }
+  ],
+  "errors": [],
+  "final": {
+    "data": [
+      {
+        "id": "120245050523350334",
+        "name": "BestCreative_1_Backup_AutoFix",
+        "status": "ACTIVE",
+        "effective_status": "IN_PROCESS",
+        "creative": {
+          "id": "1558845635143326",
+          "name": "{{product.name}} 2025-11-26-d1978166beac3d606f168c45bbefe007"
+        }
+      },
+      {
+        "id": "120244986730030334",
+        "name": "BestCreative_1",
+        "status": "ACTIVE",
+        "effective_status": "ACTIVE",
+        "creative": {
+          "id": "1558845635143326",
+          "name": "{{product.name}} 2025-11-26-d1978166beac3d606f168c45bbefe007"
+        }
+      },
+      {
+        "id": "120244985840800334",
+        "name": "AutoDeploy_Reuse_2_1773735291",
+        "status": "PAUSED",
+        "effective_status": "PAUSED",
+        "creative": {
+          "id": "1501145054513234",
+          "name": "{{product.name}} 2025-11-26-73b722e508ce0bdfd44b0388c371a9d0"
+        }
+      },
+      {
+        "id": "120244985842430334",
+        "name": "AutoDeploy_Reuse_3_1773735293",
+        "status": "PAUSED",
+        "effective_status": "PAUSED",
+        "creative": {
+          "id": "1486699365749586",
+          "name": "{{product.name}} 2025-11-26-297bb28800b3149be60379678311b17a"
+        }
+      },
+      {
+        "id": "120244970695860334",
+        "name": "AutoDeploy_Reuse_2_1773697442",
+        "status": "PAUSED",
+        "effective_status": "PAUSED",
+        "creative": {
+          "id": "1501145054513234",
+          "name": "{{product.name}} 2025-11-26-73b722e508ce0bdfd44b0388c371a9d0"
+        }
+      },
+      {
+        "id": "120244970696700334",
+        "name": "AutoDeploy_Reuse_3_1773697445",
+        "status": "PAUSED",
+        "effective_status": "PAUSED",
+        "creative": {
+          "id": "1486699365749586",
+          "name": "{{product.name}} 2025-11-26-297bb28800b3149be60379678311b17a"
+        }
+      },
+      {
+        "id": "120244986730800334",
+        "name": "BestCreative_2",
+        "status": "PAUSED",
+        "effective_status": "WITH_ISSUES",
+        "creative": {
+          "id": "1549124649664292",
+          "name": "{{product.name}} 2025-11-26-f2fd61f83bb2bfcc2fff58850e05ee14"
+        },
+        "issues_info": [
+          {
+            "level": "AD",
+            "error_code": 2490085,
+            "error_summary": "La clave de recorte de 191 x 100 para los anuncios con imagen está obsoleta.",
+            "error_message": "La clave de recorte de 191 x 100 para los anuncios con imagen está obsoleta.: La clave de recorte de 191 x 100 ya no estará disponible en la última versión de la API de anuncios. La clave recorte recomendada será de 100 x 100.",
+            "error_type": "HARD_ERROR",
+            "mid": "b39b773b42883402a3de30efdbdb7a7d"
+          }
+        ]
+      },
+      {
+        "id": "120244969535830334",
+        "name": "Skylight_ReuseCreative_3",
+        "status": "PAUSED",
+        "effective_status": "PAUSED",
+        "creative": {
+          "id": "1486699365749586",
+          "name": "{{product.name}} 2025-11-26-297bb28800b3149be60379678311b17a"
+        }
+      },
+      {
+        "id": "120244967226780334",
+        "name": "Skylight_NewSet_Reuse_3",
+        "status": "PAUSED",
+        "effective_status": "PAUSED",
+        "creative": {
+          "id": "1486699365749586",
+          "name": "{{product.name}} 2025-11-26-297bb28800b3149be60379678311b17a"
+        }
+      },
+      {
+        "id": "120244967225320334",
+        "name": "Skylight_NewSet_Reuse_2",
+        "status": "PAUSED",
+        "effective_status": "PAUSED",
+        "creative": {
+          "id": "1501145054513234",
+          "name": "{{product.name}} 2025-11-26-73b722e508ce0bdfd44b0388c371a9d0"
+        }
+      },
+      {
+        "id": "120244969531490334",
+        "name": "Skylight_ReuseCreative_2",
+        "status": "PAUSED",
+        "effective_status": "PAUSED",
+        "creative": {
+          "id": "1501145054513234",
+          "name": "{{product.name}} 2025-11-26-73b722e508ce0bdfd44b0388c371a9d0"
+        }
+      }
+    ],
+    "paging": {
+      "cursors": {
+        "before": "QVFIU1pnX1pQTVpfeGNuQjd0ejZA3VC13aDdSTE5vYkJYQU1ieFR1ZAnE2R1JMeEJiV205YUM3WXZAoekZA3R0l4WE1KRlphbXc0UktvWE1fVUhkSDFKRUJWNENR",
+        "after": "QVFIU0FBZAncxQjdxQXhYVDllNlM3S0VYQzlKLW1HaWIwaURvRnlUaXJmNl9pa2NlTXZAzcjFITzJiSVBDRERKdXFqU3A5T09LbVJkaEN3R1BfckMxZAkpTM2l3"
+      }
+    }
+  }
+}
