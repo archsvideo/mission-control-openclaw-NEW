@@ -1,0 +1,22 @@
+{
+  "workspace": {
+    "path": "accounts/6319280242/containers/232612625/workspaces/12",
+    "workspaceId": "12",
+    "name": "Booking fix ws12 20260318-223916"
+  },
+  "created": {
+    "triggers": [],
+    "tags": [
+      "GA4 - book_meeting",
+      "GA4 - calendar_booking",
+      "GA4 - generate_lead",
+      "GA4 - calendly_click"
+    ]
+  },
+  "errors": [],
+  "version": {
+    "containerVersionId": "11",
+    "path": "accounts/6319280242/containers/232612625/versions/11",
+    "name": "Booking events ws12"
+  }
+}

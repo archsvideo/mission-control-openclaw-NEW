@@ -1,0 +1,11 @@
+{
+  "created": [],
+  "errors": [
+    "GA4 - book_meeting: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/11/tags?alt=json returned \"Workspace is already submitted.\". Details: \"[{'message': 'Workspace is already submitted.', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "GA4 - calendar_booking: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/11/tags?alt=json returned \"Workspace is already submitted.\". Details: \"[{'message': 'Workspace is already submitted.', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "GA4 - generate_lead: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/11/tags?alt=json returned \"Workspace is already submitted.\". Details: \"[{'message': 'Workspace is already submitted.', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "GA4 - calendly_click: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/11/tags?alt=json returned \"Workspace is already submitted.\". Details: \"[{'message': 'Workspace is already submitted.', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "create_version: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/11:create_version?alt=json returned \"Workspace is already submitted.\". Details: \"[{'message': 'Workspace is already submitted.', 'domain': 'global', 'reason': 'badRequest'}]\">"
+  ],
+  "version": null
+}

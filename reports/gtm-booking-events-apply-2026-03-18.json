@@ -1,0 +1,18 @@
+{
+  "created": {
+    "triggers": [],
+    "tags": []
+  },
+  "existing": {
+    "triggers": [],
+    "tags": []
+  },
+  "errors": [
+    "book_meeting: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/7/triggers?alt=json returned \"Workspace is already submitted.\". Details: \"[{'message': 'Workspace is already submitted.', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "calendar_booking: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/7/triggers?alt=json returned \"Workspace is already submitted.\". Details: \"[{'message': 'Workspace is already submitted.', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "generate_lead: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/7/triggers?alt=json returned \"Workspace is already submitted.\". Details: \"[{'message': 'Workspace is already submitted.', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "calendly_click: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/7/triggers?alt=json returned \"Workspace is already submitted.\". Details: \"[{'message': 'Workspace is already submitted.', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "create_version: Got an unexpected keyword argument parent"
+  ],
+  "version": null
+}

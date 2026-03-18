@@ -1,0 +1,19 @@
+{
+  "workspace": {
+    "path": "accounts/6319280242/containers/232612625/workspaces/11",
+    "name": "Booking fix fresh 20260318-223738",
+    "workspaceId": "11"
+  },
+  "created": {
+    "triggers": [],
+    "tags": []
+  },
+  "errors": [
+    "apply: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/11/triggers?alt=json returned \"Found entity with duplicate name.\". Details: \"[{'message': 'Found entity with duplicate name.', 'domain': 'global', 'reason': 'badRequest'}]\">"
+  ],
+  "version": {
+    "containerVersionId": "10",
+    "path": "accounts/6319280242/containers/232612625/versions/10",
+    "name": "Booking Events Fix Fresh"
+  }
+}

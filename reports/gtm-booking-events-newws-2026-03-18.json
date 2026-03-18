@@ -1,0 +1,27 @@
+{
+  "workspace": {
+    "name": "Booking events fix 20260318-223602",
+    "path": "accounts/6319280242/containers/232612625/workspaces/10",
+    "workspaceId": "10"
+  },
+  "created": {
+    "triggers": [
+      "CE - book_meeting",
+      "CE - calendar_booking",
+      "CE - generate_lead",
+      "Click - Calendly outbound"
+    ],
+    "tags": []
+  },
+  "errors": [
+    "book_meeting: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/10/tags?alt=json returned \"vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\". Details: \"[{'message': 'vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\\n', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "calendar_booking: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/10/tags?alt=json returned \"vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\". Details: \"[{'message': 'vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\\n', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "generate_lead: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/10/tags?alt=json returned \"vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\". Details: \"[{'message': 'vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\\n', 'domain': 'global', 'reason': 'badRequest'}]\">",
+    "calendly_click: <HttpError 400 when requesting https://tagmanager.googleapis.com/tagmanager/v2/accounts/6319280242/containers/232612625/workspaces/10/tags?alt=json returned \"vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\". Details: \"[{'message': 'vendorTemplate.parameter.measurementIdOverride: The value must not be empty.\\n', 'domain': 'global', 'reason': 'badRequest'}]\">"
+  ],
+  "version": {
+    "containerVersionId": "9",
+    "path": "accounts/6319280242/containers/232612625/versions/9",
+    "name": "Booking Events Fix"
+  }
+}
