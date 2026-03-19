@@ -122,6 +122,24 @@ def main():
         closes, highs, lows = kraken_ohlc(pos["pair"], interval=60, count=5)
         px = closes[-1]
         exit_reason = None
+        # break-even upgrade once trade reaches +1R (protect capital)
+        current_pnl = (px - pos["entry"]) * pos["qty"] if pos["direction"] == "LONG" else (pos["entry"] - px) * pos["qty"]
+        current_r = current_pnl / pos["risk_amount"] if pos.get("risk_amount") else 0
+        if current_r >= 1.0:
+            if pos["direction"] == "LONG":
+                pos["stop_loss"] = max(pos["stop_loss"], pos["entry"])
+            else:
+                pos["stop_loss"] = min(pos["stop_loss"], pos["entry"])
+
+        # time-stop: if stale after 10h and not progressing, exit to free slot
+        try:
+            opened_at = datetime.fromisoformat(pos["timestamp"])
+            age_h = (datetime.now(timezone.utc) - opened_at).total_seconds() / 3600
+            if age_h >= 10 and abs(current_r) < 0.25:
+                exit_reason = "time_stop"
+        except Exception:
+            pass
+
         if pos["direction"] == "LONG":
             if px <= pos["stop_loss"]:
                 exit_reason = "stop_hit"
