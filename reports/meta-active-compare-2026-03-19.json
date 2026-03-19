@@ -1,0 +1,50 @@
+{
+  "generated_at": "2026-03-19T13:20:38.213172",
+  "active_count": 4,
+  "rows": [
+    {
+      "ad_id": "120244986730030334",
+      "ad_name": "BestCreative_1",
+      "effective_status": "ACTIVE",
+      "spend": 28.09,
+      "ctr": 2.528658,
+      "cpc": 0.374533,
+      "lpv": 45.0,
+      "checkout": 0,
+      "lpv_per_dollar": 1.6019935920256319
+    },
+    {
+      "ad_id": "120245063877800334",
+      "ad_name": "Hook_Included_UserPick_2026-03-19",
+      "effective_status": "ACTIVE",
+      "spend": 0.0,
+      "ctr": 0.0,
+      "cpc": 0.0,
+      "lpv": 0,
+      "checkout": 0,
+      "lpv_per_dollar": 0
+    },
+    {
+      "ad_id": "120245063719420334",
+      "ad_name": "Hook_LotTypes_NewCreative_2026-03-19",
+      "effective_status": "ACTIVE",
+      "spend": 0.0,
+      "ctr": 0.0,
+      "cpc": 0.0,
+      "lpv": 0,
+      "checkout": 0,
+      "lpv_per_dollar": 0
+    },
+    {
+      "ad_id": "120245050696100334",
+      "ad_name": "TOP3_{{product.name}} 2025-11-26-f2fd61f83bb2bfcc2fff58",
+      "effective_status": "ACTIVE",
+      "spend": 0.0,
+      "ctr": 0.0,
+      "cpc": 0.0,
+      "lpv": 0,
+      "checkout": 0,
+      "lpv_per_dollar": 0
+    }
+  ]
+}
