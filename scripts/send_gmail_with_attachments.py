@@ -48,6 +48,11 @@ def build_message(sender, to, subject, body, attachments):
     return msg
 
 
+def normalize_body_text(s: str) -> str:
+    # Convert escaped literals ("\\n") into real newlines if provided from CLI
+    return s.replace('\\n', '\n')
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--to', required=True)
@@ -60,7 +65,8 @@ def main():
     creds = load_creds()
     svc = build('gmail', 'v1', credentials=creds, cache_discovery=False)
 
-    msg = build_message(args.from_email, args.to, args.subject, args.body, args.attach)
+    body = normalize_body_text(args.body)
+    msg = build_message(args.from_email, args.to, args.subject, body, args.attach)
     raw = base64.urlsafe_b64encode(msg.as_bytes()).decode('utf-8')
     sent = svc.users().messages().send(userId='me', body={'raw': raw}).execute()
     print(sent.get('id'))
