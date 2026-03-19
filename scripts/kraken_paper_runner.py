@@ -220,6 +220,11 @@ def main():
             if direction is None:
                 continue
 
+            # Pair-specific strictness (focus mode): ETH requires stronger confirmation
+            if pair == "ETH/USD":
+                if not (trend_strength >= 0.010 and ((direction == "LONG" and r >= 58) or (direction == "SHORT" and r <= 42))):
+                    continue
+
             # if this would be the 3rd slot, require stronger signal
             if open_count >= max_default and allow_third_strong:
                 if not (trend_strength >= 0.006 and ((direction == "LONG" and r >= 56) or (direction == "SHORT" and r <= 44))):

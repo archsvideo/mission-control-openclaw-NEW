@@ -2,7 +2,7 @@
   "mode": "paper",
   "execution_venue": "kraken",
   "send_live_orders": false,
-  "universe": ["XBT/USD", "ETH/USD", "SOL/USD"],
+  "universe": ["SOL/USD", "XBT/USD", "ETH/USD"],
   "risk": {
     "max_risk_per_trade_pct": 0.5,
     "max_total_open_risk_pct": 1.0,
