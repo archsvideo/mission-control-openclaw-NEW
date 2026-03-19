@@ -1,0 +1,17 @@
+{
+  "agent_governance": {
+    "evaluation_window_days": 7,
+    "pause_candidate_rule": {
+      "enabled": true,
+      "min_completed_tasks": 3,
+      "min_value_score": 0.35,
+      "max_cost_per_success_usd": 8.0,
+      "condition": "if value_score < min_value_score AND completed_tasks >= min_completed_tasks OR cost_per_success > max_cost_per_success_usd"
+    }
+  },
+  "score_formula": {
+    "value_score": "0.45*success_rate + 0.30*task_completion_rate + 0.25*quality_score",
+    "cost_score": "successes / max(cost_today, 0.01)",
+    "final_rank": "0.7*value_score + 0.3*normalized_cost_score"
+  }
+}

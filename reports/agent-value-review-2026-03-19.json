@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-03-19T14:02:07.591787",
+  "window_days": 7,
+  "rows": [
+    {
+      "agent": "trading-orchestrator",
+      "value_score": 0.649,
+      "cost_per_success_usd": 0.8,
+      "completed_tasks": 6,
+      "pause_candidate": false
+    },
+    {
+      "agent": "lead-orchestrator",
+      "value_score": 0.633,
+      "cost_per_success_usd": 0.22,
+      "completed_tasks": 7,
+      "pause_candidate": false
+    },
+    {
+      "agent": "radar-orchestrator",
+      "value_score": 0.435,
+      "cost_per_success_usd": 2.6,
+      "completed_tasks": 4,
+      "pause_candidate": false
+    },
+    {
+      "agent": "revit-orchestrator",
+      "value_score": 0.487,
+      "cost_per_success_usd": 0.9,
+      "completed_tasks": 2,
+      "pause_candidate": false
+    }
+  ],
+  "pause_candidates": []
+}
