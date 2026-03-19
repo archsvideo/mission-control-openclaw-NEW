@@ -4,15 +4,15 @@
   "send_live_orders": false,
   "universe": ["XBT/USD", "ETH/USD", "SOL/USD"],
   "risk": {
-    "max_risk_per_trade_pct": 0.5,
-    "max_total_open_risk_pct": 1.5,
+    "max_risk_per_trade_pct": 0.4,
+    "max_total_open_risk_pct": 0.8,
     "max_daily_drawdown_pct": 2.0,
     "kill_switch_after_consecutive_losses": 3
   },
   "execution": {
     "max_open_positions_default": 2,
-    "max_open_positions_hard": 3,
-    "allow_third_only_if_strong_signal": true
+    "max_open_positions_hard": 2,
+    "allow_third_only_if_strong_signal": false
   },
   "source_models": [
     {
