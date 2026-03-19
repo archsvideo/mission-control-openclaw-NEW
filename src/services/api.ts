@@ -37,6 +37,16 @@ export async function getTimeline(): Promise<TimelineEvent[]> {
   return [...timeline].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 }
 
+export async function getContentCalendar(): Promise<ContentCalendarItem[]> {
+  await delay();
+  return contentCalendar;
+}
+
+export async function getWorkflowCheckpoints(): Promise<WorkflowCheckpoint[]> {
+  await delay();
+  return workflowCheckpoints;
+}
+
 export async function testConnection(integrationId: string): Promise<{ success: boolean; message: string }> {
   await delay(800);
   const integration = integrations.find((i) => i.id === integrationId);

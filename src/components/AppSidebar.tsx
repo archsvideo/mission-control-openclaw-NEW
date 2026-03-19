@@ -32,6 +32,7 @@ const items = [
   { title: "Tasks", url: "/tasks", icon: ListTodo },
   { title: "Trading", url: "/trading", icon: TrendingUp },
   { title: "Marketing", url: "/marketing", icon: Megaphone },
+  { title: "Content Calendar", url: "/content-calendar", icon: CalendarDays },
   { title: "Integrations", url: "/integrations", icon: Plug },
   { title: "Timeline", url: "/timeline", icon: Clock },
   { title: "Settings", url: "/settings", icon: Settings },

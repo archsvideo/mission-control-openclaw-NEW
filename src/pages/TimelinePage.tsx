@@ -10,6 +10,7 @@ const typeColor: Record<TimelineEventType, string> = {
   campaign: "border-warning",
   integration: "border-destructive",
   system: "border-muted-foreground",
+  content: "border-primary",
 };
 
 const severityDot: Record<string, string> = {
