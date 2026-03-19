@@ -2,8 +2,8 @@
  * Service layer — swap mock imports for real API calls when backend is ready.
  * All functions return promises for easy async migration.
  */
-import type { Agent, Task, Trade, CampaignCreative, IntegrationStatus, TimelineEvent } from "@/types/models";
-import { agents, tasks, trades, campaigns, integrations, timeline } from "@/data/seed";
+import type { Agent, Task, Trade, CampaignCreative, IntegrationStatus, TimelineEvent, ContentCalendarItem, WorkflowCheckpoint } from "@/types/models";
+import { agents, tasks, trades, campaigns, integrations, timeline, contentCalendar, workflowCheckpoints } from "@/data/seed";
 
 const delay = (ms = 200) => new Promise((r) => setTimeout(r, ms));
 
@@ -35,6 +35,16 @@ export async function getIntegrations(): Promise<IntegrationStatus[]> {
 export async function getTimeline(): Promise<TimelineEvent[]> {
   await delay();
   return [...timeline].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+}
+
+export async function getContentCalendar(): Promise<ContentCalendarItem[]> {
+  await delay();
+  return contentCalendar;
+}
+
+export async function getWorkflowCheckpoints(): Promise<WorkflowCheckpoint[]> {
+  await delay();
+  return workflowCheckpoints;
 }
 
 export async function testConnection(integrationId: string): Promise<{ success: boolean; message: string }> {

@@ -1,4 +1,4 @@
-import type { Agent, Task, Trade, CampaignCreative, IntegrationStatus, TimelineEvent } from "@/types/models";
+import type { Agent, Task, Trade, CampaignCreative, IntegrationStatus, TimelineEvent, ContentCalendarItem, WorkflowCheckpoint } from "@/types/models";
 
 export const agents: Agent[] = [
   { id: "a1", name: "TradeBot Alpha", type: "Trading", status: "running", lastActive: "2026-03-19T14:30:00Z", tasksCompleted: 147, uptime: "12d 4h", description: "Executes swing trades on crypto pairs" },
@@ -55,4 +55,20 @@ export const timeline: TimelineEvent[] = [
   { id: "e8", type: "agent", title: "TradeBot Alpha resumed", description: "Back online after maintenance", timestamp: "2026-03-19T06:00:00Z", severity: "success" },
   { id: "e9", type: "integration", title: "Meta Ads rate limiting", description: "API calls throttled — degraded sync", timestamp: "2026-03-19T12:30:00Z", severity: "warning" },
   { id: "e10", type: "trade", title: "DOGE/USDT position opened", description: "Long 50,000 DOGE at $0.082", timestamp: "2026-03-19T06:00:00Z", severity: "info" },
+];
+
+export const contentCalendar: ContentCalendarItem[] = [
+  { id: "cc1", date: "2026-03-19", contentId: "POST-001", channel: "linkedin", title: "AI Agents in Practice — 3 Lessons", status: "done", owner: "Oscar", assetLinks: ["https://example.com/post1-graphic.png"], notes: "Performed well, 2.4k impressions" },
+  { id: "cc2", date: "2026-03-19", contentId: "POST-002", channel: "instagram", title: "Behind the scenes: Mission Control setup", status: "in_progress", owner: "Oscar", assetLinks: [], notes: "Shooting B-roll today" },
+  { id: "cc3", date: "2026-03-20", contentId: "POST-003", channel: "linkedin", title: "Why solo founders need AI ops", status: "planned", owner: "Oscar", assetLinks: [], notes: "" },
+  { id: "cc4", date: "2026-03-20", contentId: "POST-004", channel: "linkedin", title: "Before vs After: Manual workflow → AI-enhanced workflow", status: "planned", owner: "Oscar", assetLinks: ["[old-project.pdf]", "[new-ia-render-1.png]", "[new-ia-render-2.png]", "[final-copy.docx]"], notes: "Concept: side-by-side comparison of manual PM workflow vs AI-augmented. Include old project PDF, new IA renders, and final copy." },
+  { id: "cc5", date: "2026-03-21", contentId: "POST-005", channel: "instagram", title: "Tool stack reveal — Reels format", status: "planned", owner: "Oscar", assetLinks: [], notes: "15-second reel" },
+  { id: "cc6", date: "2026-03-18", contentId: "POST-000", channel: "linkedin", title: "Launch week recap", status: "done", owner: "Oscar", assetLinks: ["https://example.com/recap.png"], notes: "Solid engagement" },
+  { id: "cc7", date: "2026-03-17", contentId: "POST-REF", channel: "blog", title: "OpenClaw product philosophy", status: "done", owner: "Oscar", assetLinks: [], notes: "Published on blog" },
+];
+
+export const workflowCheckpoints: WorkflowCheckpoint[] = [
+  { id: "wf1", label: "Record priorities", time: "morning", completed: false, note: "" },
+  { id: "wf2", label: "Progress update", time: "midday", completed: false, note: "" },
+  { id: "wf3", label: "Done log + blockers", time: "end_of_day", completed: false, note: "" },
 ];
