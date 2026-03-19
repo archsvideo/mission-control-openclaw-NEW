@@ -84,6 +84,47 @@ def atr(highs, lows, closes, period=14):
     return mean(trs[-period:])
 
 
+def adx(highs, lows, closes, period=14):
+    if len(closes) < period + 5:
+        return 10.0
+
+    plus_dm = []
+    minus_dm = []
+    tr_list = []
+
+    for i in range(1, len(closes)):
+        up_move = highs[i] - highs[i - 1]
+        down_move = lows[i - 1] - lows[i]
+
+        p_dm = up_move if (up_move > down_move and up_move > 0) else 0.0
+        m_dm = down_move if (down_move > up_move and down_move > 0) else 0.0
+
+        tr = max(highs[i] - lows[i], abs(highs[i] - closes[i - 1]), abs(lows[i] - closes[i - 1]))
+
+        plus_dm.append(p_dm)
+        minus_dm.append(m_dm)
+        tr_list.append(tr)
+
+    if len(tr_list) < period:
+        return 10.0
+
+    # simple rolling approximation (good enough for regime filter)
+    tr_n = sum(tr_list[-period:])
+    p_dm_n = sum(plus_dm[-period:])
+    m_dm_n = sum(minus_dm[-period:])
+
+    if tr_n == 0:
+        return 10.0
+
+    p_di = 100 * (p_dm_n / tr_n)
+    m_di = 100 * (m_dm_n / tr_n)
+    denom = (p_di + m_di)
+    if denom == 0:
+        return 10.0
+    dx = 100 * abs(p_di - m_di) / denom
+    return dx
+
+
 def append_log(row):
     with LOG_PATH.open("a", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
@@ -208,8 +249,16 @@ def main():
             r = rsi(closes, 14)
             price = closes[-1]
             a = atr(highs, lows, closes, 14)
+            adx_v = adx(highs, lows, closes, 14)
 
             trend_strength = abs(e_fast - e_slow) / max(price, 1e-9)
+
+            # regime filter v1: avoid low-trend chop and extreme volatility spikes
+            atr_pct = a / max(price, 1e-9)
+            if adx_v < 18:
+                continue
+            if atr_pct > 0.03:  # avoid panic/spike candles
+                continue
 
             direction = None
             if e_fast > e_slow and 50 <= r <= 72:
@@ -257,7 +306,7 @@ def main():
                 "take_profit": tp,
                 "qty": qty,
                 "risk_amount": risk_amt,
-                "reason_entry": f"{dominant} session-model | EMA20/50 + RSI (rsi={r:.1f}, utc={hour_utc}, ts={trend_strength:.4f})",
+                "reason_entry": f"{dominant} session-model | EMA20/50 + RSI + ADX regime (rsi={r:.1f}, adx={adx_v:.1f}, utc={hour_utc}, ts={trend_strength:.4f})",
             }
             state["open_positions"].append(pos)
             print(f"OPENED_PAPER_{direction}_{pair}_{dominant}")
