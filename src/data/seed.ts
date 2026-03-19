@@ -1,4 +1,4 @@
-import type { Agent, Task, Trade, CampaignCreative, IntegrationStatus, TimelineEvent } from "@/types/models";
+import type { Agent, Task, Trade, CampaignCreative, IntegrationStatus, TimelineEvent, ContentCalendarItem, WorkflowCheckpoint } from "@/types/models";
 
 export const agents: Agent[] = [
   { id: "a1", name: "TradeBot Alpha", type: "Trading", status: "running", lastActive: "2026-03-19T14:30:00Z", tasksCompleted: 147, uptime: "12d 4h", description: "Executes swing trades on crypto pairs" },

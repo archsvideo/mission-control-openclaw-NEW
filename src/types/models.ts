@@ -74,7 +74,30 @@ export interface IntegrationStatus {
   icon: string;
 }
 
-export type TimelineEventType = "agent" | "task" | "trade" | "campaign" | "integration" | "system";
+export type ContentStatus = "planned" | "in_progress" | "done" | "blocked";
+export type ContentChannel = "linkedin" | "instagram" | "twitter" | "blog" | "email";
+
+export interface ContentCalendarItem {
+  id: string;
+  date: string;
+  contentId: string;
+  channel: ContentChannel;
+  title: string;
+  status: ContentStatus;
+  owner: string;
+  assetLinks: string[];
+  notes: string;
+}
+
+export interface WorkflowCheckpoint {
+  id: string;
+  label: string;
+  time: "morning" | "midday" | "end_of_day";
+  completed: boolean;
+  note: string;
+}
+
+export type TimelineEventType = "agent" | "task" | "trade" | "campaign" | "integration" | "system" | "content";
 
 export interface TimelineEvent {
   id: string;

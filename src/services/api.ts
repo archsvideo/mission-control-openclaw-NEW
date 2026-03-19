@@ -2,8 +2,8 @@
  * Service layer — swap mock imports for real API calls when backend is ready.
  * All functions return promises for easy async migration.
  */
-import type { Agent, Task, Trade, CampaignCreative, IntegrationStatus, TimelineEvent } from "@/types/models";
-import { agents, tasks, trades, campaigns, integrations, timeline } from "@/data/seed";
+import type { Agent, Task, Trade, CampaignCreative, IntegrationStatus, TimelineEvent, ContentCalendarItem, WorkflowCheckpoint } from "@/types/models";
+import { agents, tasks, trades, campaigns, integrations, timeline, contentCalendar, workflowCheckpoints } from "@/data/seed";
 
 const delay = (ms = 200) => new Promise((r) => setTimeout(r, ms));
 
