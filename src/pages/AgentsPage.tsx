@@ -3,7 +3,7 @@ import { getAgents } from "@/services/api";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Play, Pause, RotateCcw, Heartbeat } from "lucide-react";
+import { Play, Pause, RotateCcw, Heart } from "lucide-react";
 import type { AgentStatus } from "@/types/models";
 import { toast } from "sonner";
 
