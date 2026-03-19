@@ -7,7 +7,9 @@ CLIENT_PATH = ROOT / "secrets" / "google-oauth-client.json"
 
 SCOPES = [
     "https://www.googleapis.com/auth/gmail.send",
-    "https://www.googleapis.com/auth/gmail.readonly"
+    "https://www.googleapis.com/auth/gmail.readonly",
+    "https://www.googleapis.com/auth/analytics.readonly",
+    "https://www.googleapis.com/auth/analytics.edit"
 ]
 
 if not CLIENT_PATH.exists():
@@ -22,7 +24,10 @@ print(auth_url)
 code = input("PASTE_CODE: ").strip()
 
 flow.fetch_token(code=code)
+
 creds = flow.credentials
+if not creds or not creds.token:
+    raise SystemExit('Token exchange failed; no token returned.')
 TOKEN_PATH.parent.mkdir(parents=True, exist_ok=True)
 TOKEN_PATH.write_text(creds.to_json(), encoding="utf-8")
 print(str(TOKEN_PATH))

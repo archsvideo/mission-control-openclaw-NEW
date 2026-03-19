@@ -152,21 +152,38 @@ def main():
             updated.append(pos)
     state["open_positions"] = updated
 
-    # 2) Open at most one new simulated position per cycle
-    if len(state["open_positions"]) == 0:
+    # 2) Open new simulated positions (default 2 max; 3rd only on strong signal)
+    exec_cfg = cfg.get("execution", {})
+    max_default = int(exec_cfg.get("max_open_positions_default", 2))
+    max_hard = int(exec_cfg.get("max_open_positions_hard", 3))
+    allow_third_strong = bool(exec_cfg.get("allow_third_only_if_strong_signal", True))
+
+    open_count = len(state["open_positions"])
+    open_pairs = {p.get("pair") for p in state["open_positions"]}
+    open_risk_pct = sum((p.get("risk_amount", 0.0) / max(state["equity"], 1)) * 100 for p in state["open_positions"])
+
+    # can attempt a new entry only if risk and slot capacity allow
+    can_open = open_count < max_default and open_risk_pct < risk.get("max_total_open_risk_pct", 1.5)
+    if open_count >= max_default and open_count < max_hard and allow_third_strong:
+        can_open = open_risk_pct < risk.get("max_total_open_risk_pct", 1.5)
+
+    if can_open:
         hour_utc = datetime.now(timezone.utc).hour
         models = [m for m in cfg["source_models"] if m["status"].startswith("active") and m["weight"] > 0]
 
-        # prioritize models that are "active" in the current UTC hour
+        # prioritize models that are active now
         active_now = [m for m in models if hour_utc in m.get("session_utc", [])]
         selected = max(active_now, key=lambda x: x["weight"]) if active_now else (max(models, key=lambda x: x["weight"]) if models else {"name": "blend", "pair_bias": []})
         dominant = selected["name"]
 
-        # pair order = model pair bias first, then rest of universe
         pair_bias = selected.get("pair_bias", [])
         pair_order = pair_bias + [p for p in cfg["universe"] if p not in pair_bias]
 
         for pair in pair_order:
+            # no duplicate same pair at same time
+            if pair in open_pairs:
+                continue
+
             closes, highs, lows = kraken_ohlc(pair, interval=60, count=220)
             e_fast = ema(closes, 20)[-1]
             e_slow = ema(closes, 50)[-1]
@@ -174,8 +191,9 @@ def main():
             price = closes[-1]
             a = atr(highs, lows, closes, 14)
 
+            trend_strength = abs(e_fast - e_slow) / max(price, 1e-9)
+
             direction = None
-            # slightly more sensitive entry while keeping trend filter
             if e_fast > e_slow and 50 <= r <= 72:
                 direction = "LONG"
             elif e_fast < e_slow and 28 <= r <= 50:
@@ -184,8 +202,19 @@ def main():
             if direction is None:
                 continue
 
+            # if this would be the 3rd slot, require stronger signal
+            if open_count >= max_default and allow_third_strong:
+                if not (trend_strength >= 0.006 and ((direction == "LONG" and r >= 56) or (direction == "SHORT" and r <= 44))):
+                    continue
+
             stop_dist = max(a, price * 0.0055)
             risk_amt = state["equity"] * (risk["max_risk_per_trade_pct"] / 100)
+
+            # enforce total open risk cap
+            projected_open_risk_pct = open_risk_pct + (risk_amt / max(state["equity"], 1)) * 100
+            if projected_open_risk_pct > risk.get("max_total_open_risk_pct", 1.5):
+                continue
+
             qty = risk_amt / stop_dist
 
             if direction == "LONG":
@@ -205,7 +234,7 @@ def main():
                 "take_profit": tp,
                 "qty": qty,
                 "risk_amount": risk_amt,
-                "reason_entry": f"{dominant} session-model | EMA20/50 + RSI (rsi={r:.1f}, utc={hour_utc})",
+                "reason_entry": f"{dominant} session-model | EMA20/50 + RSI (rsi={r:.1f}, utc={hour_utc}, ts={trend_strength:.4f})",
             }
             state["open_positions"].append(pos)
             print(f"OPENED_PAPER_{direction}_{pair}_{dominant}")
