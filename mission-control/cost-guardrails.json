@@ -1,0 +1,24 @@
+{
+  "global_daily_budget_usd": 12,
+  "module_budgets_usd": {
+    "trading_intelligence": 4,
+    "marketing_automation": 3,
+    "tracking_diagnostics": 2,
+    "comms": 3
+  },
+  "retry_policy": {
+    "max_retries": 1,
+    "max_repeated_errors_30m": 3,
+    "disable_workflow_on_limit": true
+  },
+  "alerts": {
+    "budget_warn_pct": 70,
+    "notify_on_module_cap": true,
+    "notify_on_loop_disable": true
+  },
+  "trading_safety": {
+    "kill_switch_after_losses": 3,
+    "daily_dd_stop_pct": 2,
+    "open_risk_cap_pct": 1
+  }
+}
