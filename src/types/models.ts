@@ -3,12 +3,17 @@ export type AgentStatus = "running" | "idle" | "error" | "paused";
 export interface Agent {
   id: string;
   name: string;
+  role: string;
   type: string;
   status: AgentStatus;
   lastActive: string;
   tasksCompleted: number;
   uptime: string;
   description: string;
+  heartbeat: string;
+  currentTask: string;
+  costToday: number;
+  successRate: number;
 }
 
 export type TaskStatus = "inbox" | "running" | "waiting" | "done" | "blocked";
@@ -40,15 +45,42 @@ export interface Trade {
   quantity: number;
   pnl: number;
   pnlPercent: number;
+  unrealizedR: number;
   openedAt: string;
   closedAt?: string;
   stopLoss?: number;
   takeProfit?: number;
 }
 
+export interface TradeAlert {
+  id: string;
+  type: "OPEN" | "CLOSE" | "STOP" | "TP" | "TIME-STOP";
+  symbol: string;
+  message: string;
+  timestamp: string;
+}
+
+export interface PairPerformance {
+  pair: string;
+  ev: number;
+  winRate: number;
+  profitFactor: number;
+  trades: number;
+}
+
+export interface RiskMetrics {
+  riskPerTrade: number;
+  openRisk: number;
+  dailyDD: number;
+  consecutiveLosses: number;
+  killSwitchActive: boolean;
+}
+
 export interface CampaignCreative {
   id: string;
   name: string;
+  creativeId: string;
+  adsetId: string;
   platform: "meta" | "google" | "tiktok";
   status: "active" | "paused" | "completed";
   spend: number;
@@ -58,8 +90,27 @@ export interface CampaignCreative {
   ctr: number;
   cpa: number;
   roas: number;
+  lpv: number;
+  beginCheckout: number;
+  recommendation: string;
   startDate: string;
   endDate?: string;
+}
+
+export interface ABHypothesis {
+  id: string;
+  name: string;
+  hypothesis: string;
+  status: "draft" | "running" | "concluded";
+  variant: string;
+  metric: string;
+  result?: string;
+}
+
+export interface FunnelStep {
+  label: string;
+  value: number;
+  rate?: number;
 }
 
 export type IntegrationHealth = "healthy" | "degraded" | "down" | "not_configured";
@@ -67,9 +118,11 @@ export type IntegrationHealth = "healthy" | "degraded" | "down" | "not_configure
 export interface IntegrationStatus {
   id: string;
   name: string;
-  type: "gmail" | "ga4" | "gtm" | "meta" | "slack" | "stripe";
+  type: "gmail" | "ga4" | "gtm" | "meta" | "slack" | "stripe" | "kraken";
   health: IntegrationHealth;
   lastSync: string;
+  latency: number;
+  lastError: string;
   message: string;
   icon: string;
 }
@@ -97,7 +150,11 @@ export interface WorkflowCheckpoint {
   note: string;
 }
 
-export type TimelineEventType = "agent" | "task" | "trade" | "campaign" | "integration" | "system" | "content";
+export type TimelineEventType =
+  | "agent" | "task" | "trade" | "campaign" | "integration" | "system" | "content"
+  | "delegated_to_subagent" | "contract_validation_failed" | "retry_triggered"
+  | "escalation_to_human" | "trade_opened" | "trade_closed" | "lead_updated"
+  | "email_sent" | "creative_published" | "gtm_published" | "revit_job_started" | "revit_job_failed";
 
 export interface TimelineEvent {
   id: string;
@@ -106,4 +163,76 @@ export interface TimelineEvent {
   description: string;
   timestamp: string;
   severity: "info" | "warning" | "error" | "success";
+}
+
+export type LeadStage = "new" | "contacted" | "qualified" | "meeting" | "proposal" | "won" | "lost";
+
+export interface Lead {
+  id: string;
+  name: string;
+  company: string;
+  source: string;
+  score: number;
+  owner: string;
+  stage: LeadStage;
+  lastContact: string;
+  nextAction: string;
+  bookingStatus: "none" | "pending" | "booked" | "completed" | "no_show";
+  emailHistory: { date: string; subject: string; status: "sent" | "opened" | "replied" }[];
+  createdAt: string;
+}
+
+export interface CompetitorEntry {
+  id: string;
+  sourceUrl: string;
+  platform: string;
+  engagement: number;
+  hookType: string;
+  format: string;
+  pattern: string;
+  testedInternally: boolean;
+  createdAt: string;
+}
+
+export type RevitJobStatus = "queued" | "running" | "completed" | "failed" | "retrying";
+
+export interface RevitJob {
+  id: string;
+  name: string;
+  template: string;
+  status: RevitJobStatus;
+  runtime: number;
+  logs: string[];
+  createdAt: string;
+  completedAt?: string;
+}
+
+export interface ContractValidation {
+  agentId: string;
+  agentName: string;
+  totalChecks: number;
+  passed: number;
+  failed: number;
+  lastFailure?: string;
+}
+
+export type CostGuardrailStatus = "green" | "yellow" | "red";
+
+export interface CostGuardrail {
+  module: string;
+  budgetLimit: number;
+  currentSpend: number;
+  percentUsed: number;
+  status: CostGuardrailStatus;
+  repeatedFailures: number;
+  pauseCandidate: boolean;
+}
+
+export interface MemoryEntry {
+  id: string;
+  type: "journal" | "lesson" | "decision";
+  title: string;
+  content: string;
+  tags: string[];
+  date: string;
 }
