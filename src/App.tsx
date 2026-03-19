@@ -12,6 +12,7 @@ import MarketingPage from "@/pages/MarketingPage";
 import IntegrationsPage from "@/pages/IntegrationsPage";
 import TimelinePage from "@/pages/TimelinePage";
 import SettingsPage from "@/pages/SettingsPage";
+import ContentCalendarPage from "@/pages/ContentCalendarPage";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
