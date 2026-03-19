@@ -1,0 +1,19 @@
+{
+  "primary": "codex",
+  "fallback": "gemini-2.5-flash",
+  "intraday_llm": false,
+  "fallback_policy": {
+    "on_primary_error": true,
+    "on_timeout": true,
+    "on_budget_guard": true
+  },
+  "allowed_fallback_tasks": [
+    "daily_market_summary",
+    "post_trade_review",
+    "strategy_sanity_check"
+  ],
+  "blocked_fallback_tasks": [
+    "intraday_entry_decision",
+    "live_order_execution"
+  ]
+}

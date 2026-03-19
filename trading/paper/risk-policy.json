@@ -1,0 +1,13 @@
+{
+  "risk_per_trade_pct": 0.5,
+  "max_total_open_risk_pct": 1.0,
+  "max_daily_drawdown_pct": 2.0,
+  "kill_switch_after_losses": 3,
+  "max_open_positions": 2,
+  "focus_pairs": ["SOL/USD", "XBT/USD", "ETH/USD"],
+  "eth_entry_strict_mode": true,
+  "regime_filter": {
+    "adx_min": 18,
+    "atr_pct_max": 0.03
+  }
+}
