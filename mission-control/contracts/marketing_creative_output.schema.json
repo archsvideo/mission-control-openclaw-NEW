@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["status", "creative_id", "recommendation", "rationale"],
+  "properties": {
+    "status": {"type": "string", "enum": ["OK", "WARNING", "ERROR"]},
+    "creative_id": {"type": "string"},
+    "recommendation": {"type": "string", "enum": ["SCALE", "PAUSE", "WAIT", "FIX"]},
+    "rationale": {"type": "string"}
+  }
+}

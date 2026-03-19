@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["request_id", "status", "delegations", "summary", "next_action"],
+  "properties": {
+    "request_id": {"type": "string"},
+    "status": {"type": "string", "enum": ["SUCCESS", "PARTIAL", "FAILED", "ESCALATED"]},
+    "delegations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["subagent", "task_id", "status"],
+        "properties": {
+          "subagent": {"type": "string"},
+          "task_id": {"type": "string"},
+          "status": {"type": "string"}
+        }
+      }
+    },
+    "summary": {"type": "string"},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "next_action": {"type": "string"}
+  }
+}

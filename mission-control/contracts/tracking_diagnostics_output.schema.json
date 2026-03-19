@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["status", "root_cause", "fix_steps", "verification_steps"],
+  "properties": {
+    "status": {"type": "string", "enum": ["HEALTHY", "DEGRADED", "BROKEN"]},
+    "root_cause": {"type": "string", "enum": ["PERMISSIONS", "TRIGGER", "FRONTEND", "QUOTA", "UNKNOWN"]},
+    "fix_steps": {"type": "array", "items": {"type": "string"}},
+    "verification_steps": {"type": "array", "items": {"type": "string"}}
+  }
+}

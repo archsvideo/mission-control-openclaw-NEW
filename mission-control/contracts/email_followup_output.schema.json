@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["status", "recipient", "subject", "body", "message_id"],
+  "properties": {
+    "status": {"type": "string", "enum": ["SENT", "FAILED", "DRAFT"]},
+    "recipient": {"type": "string"},
+    "subject": {"type": "string"},
+    "body": {"type": "string"},
+    "message_id": {"type": "string"},
+    "error": {"type": "string"}
+  }
+}

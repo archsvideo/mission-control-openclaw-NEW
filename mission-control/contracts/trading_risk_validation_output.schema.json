@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["decision", "checks", "reason"],
+  "properties": {
+    "decision": {"type": "string", "enum": ["APPROVE", "REJECT"]},
+    "checks": {
+      "type": "object",
+      "required": ["per_trade_risk_ok", "open_risk_ok", "dd_ok", "kill_switch_ok"],
+      "properties": {
+        "per_trade_risk_ok": {"type": "boolean"},
+        "open_risk_ok": {"type": "boolean"},
+        "dd_ok": {"type": "boolean"},
+        "kill_switch_ok": {"type": "boolean"}
+      }
+    },
+    "reason": {"type": "string"}
+  }
+}
