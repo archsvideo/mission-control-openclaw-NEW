@@ -1,6 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ControlTowerPage } from './pages/ControlTowerPage';
 import { AgentsPage } from './pages/AgentsPage';
+import {
+  IntegrationsPage,
+  LeadsPage,
+  MemoryPage,
+  RadarPage,
+  RevitPage,
+  SettingsPage,
+  SkylightCROPage,
+  StudioPage,
+  TimelinePage,
+} from './pages/LanePages';
 import { TradingOpsPage } from './pages/TradingOpsPage';
 import { routes } from './routes';
 
@@ -137,9 +148,9 @@ export default function App() {
   }, []);
 
   const activeRoute = useMemo(() => routes.find((route) => route.key === view) ?? routes[0], [view]);
-  const liveCount = routes.filter((route) => route.status === 'live').length;
-  const partialCount = routes.filter((route) => route.status === 'partial').length;
-  const scaffoldCount = routes.filter((route) => route.status === 'scaffold').length;
+  const liveCount = routes.filter((route) => route.status === ('live' as RouteStatus)).length;
+  const partialCount = routes.filter((route) => route.status === ('partial' as RouteStatus)).length;
+  const scaffoldCount = routes.filter((route) => route.status === ('scaffold' as RouteStatus)).length;
 
   function navigate(next: ViewKey) {
     setView(next);
@@ -187,7 +198,19 @@ export default function App() {
             ))}
           </nav>
         </header>
-        {view === 'control-tower' ? <ControlTowerPage /> : view === 'agents' ? <AgentsPage /> : view === 'trading' ? <TradingOpsPage /> : <LaneModule route={activeRoute} />}
+        {view === 'control-tower' ? <ControlTowerPage />
+          : view === 'agents' ? <AgentsPage />
+          : view === 'trading' ? <TradingOpsPage />
+          : view === 'leads' ? <LeadsPage />
+          : view === 'skylight-cro' ? <SkylightCROPage />
+          : view === 'radar' ? <RadarPage />
+          : view === 'revit' ? <RevitPage />
+          : view === 'integrations' ? <IntegrationsPage />
+          : view === 'timeline' ? <TimelinePage />
+          : view === 'memory' ? <MemoryPage />
+          : view === 'settings' ? <SettingsPage />
+          : view === 'studio' ? <StudioPage />
+          : <LaneModule route={activeRoute} />}
       </div>
     </main>
   );
