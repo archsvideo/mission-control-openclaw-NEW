@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ControlTowerPage } from './pages/ControlTowerPage';
+import { AgentsPage } from './pages/AgentsPage';
 import { TradingOpsPage } from './pages/TradingOpsPage';
 import { routes } from './routes';
 
@@ -186,7 +187,7 @@ export default function App() {
             ))}
           </nav>
         </header>
-        {view === 'control-tower' ? <ControlTowerPage /> : view === 'trading' ? <TradingOpsPage /> : <LaneModule route={activeRoute} />}
+        {view === 'control-tower' ? <ControlTowerPage /> : view === 'agents' ? <AgentsPage /> : view === 'trading' ? <TradingOpsPage /> : <LaneModule route={activeRoute} />}
       </div>
     </main>
   );
