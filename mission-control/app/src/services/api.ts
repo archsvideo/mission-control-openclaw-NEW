@@ -3,21 +3,21 @@ import type {
   CampaignCreative, ABHypothesis, FunnelStep, IntegrationStatus,
   TimelineEvent, ContentCalendarItem, WorkflowCheckpoint,
   Lead, CompetitorEntry, RevitJob, ContractValidation, CostGuardrail, MemoryEntry
-} from "@/types/models";
+} from "../types/models";
 import {
   agents, tasks, trades, tradeAlerts, pairPerformance, riskMetrics,
   campaigns, abHypotheses, funnelSteps, integrations, timeline,
   contentCalendar, workflowCheckpoints, leads, competitors, revitJobs,
   contractValidations, costGuardrails, memoryEntries
-} from "@/data/seed";
+} from "../data/seed";
 import {
   adaptAgent, adaptTask, adaptTimelineEvent,
   adaptMetaCampaigns, adaptMetaIntegrations,
   adaptTradingRisk, adaptTradingAlerts,
   type NovaState, type TradingState,
-} from "@/adapters/nova-to-ui";
+} from "../adapters/nova-to-ui";
 
-const delay = (ms = 200) => new Promise((r) => setTimeout(r, ms));
+const delay = (ms = 200) => new Promise((r: (v: unknown) => void) => setTimeout(r, ms));
 
 // ---- Fetchers with cache ----
 
@@ -96,22 +96,17 @@ export async function getTimeline(): Promise<TimelineEvent[]> {
   const nova = await fetchNova();
   if (nova && nova.timeline.length > 0) {
     return nova.timeline.map(adaptTimelineEvent).sort(
-      (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+      (a: { timestamp: string }, b: { timestamp: string }) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
     ) as TimelineEvent[];
   }
-  await delay(); return [...timeline].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+  await delay(); return [...timeline].sort((a: TimelineEvent, b: TimelineEvent) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 }
 
 // ---- Runtime-backed: Campaigns (from Meta reports) ----
-// Uses /reports/meta/current-state.json + /reports/meta/recommendations.json.
-// TOP3 is control. BestCreative_1 refresh is next challenger. Summer is faded.
-// TOP3 was paused 2026-03-31 — control-gap risk surfaced via recommendation field.
 
 export async function getCampaigns(): Promise<CampaignCreative[]> {
   const [current, recs] = await Promise.all([fetchMetaCurrent(), fetchMetaRecs()]);
   if (current || recs) {
-    // TOP3 was explicitly paused on 2026-03-31 per meta-pause-top3 report.
-    // If current-state still shows it ACTIVE, it was reactivated. If not present or PAUSED, risk stands.
     const top3InCurrent = current?.rows?.find((r: any) => r.ad_id === "120245050696100334");
     const top3Paused = !top3InCurrent || top3InCurrent.effective_status === "PAUSED";
     return adaptMetaCampaigns(current, recs, top3Paused) as CampaignCreative[];
@@ -119,19 +114,12 @@ export async function getCampaigns(): Promise<CampaignCreative[]> {
   await delay(); return campaigns;
 }
 
-// ---- Runtime-backed: Integrations (Meta state from runtime knowledge) ----
-// Ads = degraded/partial. Page/Inbox = down. Other integrations from seed.
+// ---- Runtime-backed: Integrations (Meta state + seed for non-Meta) ----
 
 export async function getIntegrations(): Promise<IntegrationStatus[]> {
-  const metaEntries = adaptMetaIntegrations(
-    true,  // pageBlocked: confirmed by meta-page-connectivity + access-mapping reports
-    true,  // adsPartial: Ads API works, Page/Inbox doesn't
-    true   // top3Paused: paused 2026-03-31, unconfirmed if intentional
-  ) as IntegrationStatus[];
-
+  const metaEntries = adaptMetaIntegrations(true, true, true) as IntegrationStatus[];
   await delay();
-  // Replace/augment seed integrations: remove any existing "meta" seed entry, add runtime Meta entries
-  const nonMeta = integrations.filter(i => i.type !== "meta");
+  const nonMeta = integrations.filter((i: IntegrationStatus) => i.type !== "meta");
   return [...metaEntries, ...nonMeta];
 }
 
@@ -149,11 +137,11 @@ export async function getTradeAlerts(): Promise<TradeAlert[]> {
   const ts = await fetchTrading();
   const runtimeAlerts = ts ? adaptTradingAlerts(ts) as TradeAlert[] : [];
   await delay();
-  const seedSorted = [...tradeAlerts].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+  const seedSorted = [...tradeAlerts].sort((a: TradeAlert, b: TradeAlert) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
   return [...runtimeAlerts, ...seedSorted];
 }
 
-// ---- Seed-backed (unchanged — exact original signatures and shapes) ----
+// ---- Seed-backed (unchanged) ----
 
 export async function getTrades(): Promise<Trade[]> { await delay(); return trades; }
 export async function getPairPerformance(): Promise<PairPerformance[]> { await delay(); return pairPerformance; }
@@ -170,7 +158,7 @@ export async function getMemoryEntries(): Promise<MemoryEntry[]> { await delay()
 
 export async function testConnection(integrationId: string): Promise<{ success: boolean; message: string }> {
   await delay(800);
-  const integration = integrations.find((i) => i.id === integrationId);
+  const integration = integrations.find((i: IntegrationStatus) => i.id === integrationId);
   if (!integration) return { success: false, message: "Integration not found" };
   if (integration.health === "healthy") return { success: true, message: "Connection OK" };
   return { success: false, message: integration.message };

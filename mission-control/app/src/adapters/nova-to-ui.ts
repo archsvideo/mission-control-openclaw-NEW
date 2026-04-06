@@ -76,7 +76,7 @@ function mapSeverity(severity: string, type: string): string {
   return "info";
 }
 
-// ---- Agent/Task/Timeline adapters (unchanged) ----
+// ---- Agent/Task/Timeline adapters ----
 
 export function adaptAgent(a: NovaAgent) {
   return {
@@ -122,8 +122,6 @@ export function adaptTimelineEvent(e: NovaTimelineEvent) {
 }
 
 // ---- Meta campaign adapter ----
-// Maps Meta current-state.json + recommendations.json into CampaignCreative shape.
-// Priority: winner-challenger truth > recommendations > current-state.
 
 const META_STATUS_MAP: Record<string, string> = {
   ACTIVE: "active", PAUSED: "paused", IN_PROCESS: "paused",
@@ -140,9 +138,9 @@ function buildRecommendation(
   const parts: string[] = [];
   if (isControl) parts.push("[CONTROL]");
   if (isPaused) parts.push("⚠ PAUSED — control-gap risk");
-  const action = actions.find(a => a.ad_name === adName);
+  const action = actions.find((a: MetaAction) => a.ad_name === adName);
   if (action) parts.push(`${action.type}: ${action.reason}`);
-  const card = scorecards.find(s => s.ad_name === adName);
+  const card = scorecards.find((s: MetaScorecard) => s.ad_name === adName);
   if (card) parts.push(`Score ${card.score} (${card.verdict})`);
   return parts.join(" · ") || "";
 }
@@ -156,7 +154,6 @@ export function adaptMetaCampaigns(
   const actions = recs?.actions ?? [];
   const scorecards = recs?.scorecards ?? [];
 
-  // Merge current rows + recommendation ads (deduplicate by ad_id)
   const seen = new Set<string>();
   if (current?.rows) {
     for (const r of current.rows) { allAds.push(r); seen.add(r.ad_id); }
@@ -168,10 +165,9 @@ export function adaptMetaCampaigns(
     }
   }
 
-  // TOP3 ad_id from current-state
   const TOP3_ID = "120245050696100334";
 
-  return allAds.map(ad => {
+  return allAds.map((ad: MetaAdRow) => {
     const isTop3 = ad.ad_id === TOP3_ID;
     const effectiveStatus = isTop3 && top3Paused ? "PAUSED" : (ad.effective_status || "ACTIVE");
     const clicks = ad.cpc > 0 ? Math.round(ad.spend / ad.cpc) : 0;
@@ -200,7 +196,6 @@ export function adaptMetaCampaigns(
 }
 
 // ---- Meta integrations adapter ----
-// Surfaces Meta Ads = degraded (partial), Meta Page = down (blocked).
 
 export function adaptMetaIntegrations(pageBlocked: boolean, adsPartial: boolean, top3Paused: boolean) {
   const now = new Date().toISOString();
@@ -234,20 +229,18 @@ export function adaptMetaIntegrations(pageBlocked: boolean, adsPartial: boolean,
 }
 
 // ---- Trading risk adapter ----
-// Maps official_trading_state.json risk section into RiskMetrics shape.
 
 export function adaptTradingRisk(ts: TradingState) {
   return {
     riskPerTrade: ts.risk.riskPerTradePct,
     openRisk: ts.risk.openRiskPct,
-    dailyDD: 0, // Not tracked in current trading state; safe default
+    dailyDD: 0,
     consecutiveLosses: ts.risk.consecutiveLosses,
     killSwitchActive: ts.risk.killSwitchActive,
   };
 }
 
 // ---- Trading alerts adapter ----
-// Surfaces state divergence and trading blockers as TradeAlert shapes.
 
 export function adaptTradingAlerts(ts: TradingState) {
   const alerts: Array<{
