@@ -3,21 +3,21 @@ import type {
   CampaignCreative, ABHypothesis, FunnelStep, IntegrationStatus,
   TimelineEvent, ContentCalendarItem, WorkflowCheckpoint,
   Lead, CompetitorEntry, RevitJob, ContractValidation, CostGuardrail, MemoryEntry
-} from "../types/models";
+} from "@/types/models";
 import {
   agents, tasks, trades, tradeAlerts, pairPerformance, riskMetrics,
   campaigns, abHypotheses, funnelSteps, integrations, timeline,
   contentCalendar, workflowCheckpoints, leads, competitors, revitJobs,
   contractValidations, costGuardrails, memoryEntries
-} from "../data/seed";
+} from "@/data/seed";
 import {
   adaptAgent, adaptTask, adaptTimelineEvent,
   adaptMetaCampaigns, adaptMetaIntegrations,
   adaptTradingRisk, adaptTradingAlerts,
   type NovaState, type TradingState,
-} from "../adapters/nova-to-ui";
+} from "@/adapters/nova-to-ui";
 
-const delay = (ms = 200) => new Promise((r: (v: unknown) => void) => setTimeout(r, ms));
+const delay = (ms = 200) => new Promise((r) => setTimeout(r, ms));
 
 // ---- Fetchers with cache ----
 
