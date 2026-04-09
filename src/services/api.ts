@@ -19,6 +19,8 @@ import {
 
 const delay = (ms = 200) => new Promise((r) => setTimeout(r, ms));
 
+// ---- Fetchers with cache ----
+
 interface CacheEntry<T> { data: T; at: number; }
 const TTL = 5000;
 
@@ -76,17 +78,20 @@ async function fetchTrading(): Promise<TradingState | null> {
   } catch { return null; }
 }
 
-// Runtime-backed: Agents, Tasks, Timeline
+// ---- Runtime-backed: Agents, Tasks, Timeline (from Nova) ----
+
 export async function getAgents(): Promise<Agent[]> {
   const nova = await fetchNova();
   if (nova && nova.agents.length > 0) return nova.agents.map(adaptAgent) as Agent[];
   await delay(); return agents;
 }
+
 export async function getTasks(): Promise<Task[]> {
   const nova = await fetchNova();
   if (nova && nova.tasks.length > 0) return nova.tasks.map(adaptTask) as Task[];
   await delay(); return tasks;
 }
+
 export async function getTimeline(): Promise<TimelineEvent[]> {
   const nova = await fetchNova();
   if (nova && nova.timeline.length > 0) {
@@ -97,7 +102,8 @@ export async function getTimeline(): Promise<TimelineEvent[]> {
   await delay(); return [...timeline].sort((a: TimelineEvent, b: TimelineEvent) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 }
 
-// Runtime-backed: Campaigns (Meta reports)
+// ---- Runtime-backed: Campaigns (from Meta reports) ----
+
 export async function getCampaigns(): Promise<CampaignCreative[]> {
   const [current, recs] = await Promise.all([fetchMetaCurrent(), fetchMetaRecs()]);
   if (current || recs) {
@@ -108,7 +114,8 @@ export async function getCampaigns(): Promise<CampaignCreative[]> {
   await delay(); return campaigns;
 }
 
-// Runtime-backed: Integrations (Meta health + seed)
+// ---- Runtime-backed: Integrations (Meta state + seed for non-Meta) ----
+
 export async function getIntegrations(): Promise<IntegrationStatus[]> {
   const metaEntries = adaptMetaIntegrations(true, true, true) as IntegrationStatus[];
   await delay();
@@ -116,14 +123,16 @@ export async function getIntegrations(): Promise<IntegrationStatus[]> {
   return [...metaEntries, ...nonMeta];
 }
 
-// Runtime-backed: Risk Metrics (trading state)
+// ---- Runtime-backed: Risk Metrics (from trading state) ----
+
 export async function getRiskMetrics(): Promise<RiskMetrics> {
   const ts = await fetchTrading();
   if (ts) return adaptTradingRisk(ts) as RiskMetrics;
   await delay(); return riskMetrics;
 }
 
-// Runtime-backed: Trade Alerts (trading state + seed)
+// ---- Runtime-backed: Trade Alerts (from trading state + seed) ----
+
 export async function getTradeAlerts(): Promise<TradeAlert[]> {
   const ts = await fetchTrading();
   const runtimeAlerts = ts ? adaptTradingAlerts(ts) as TradeAlert[] : [];
@@ -132,7 +141,8 @@ export async function getTradeAlerts(): Promise<TradeAlert[]> {
   return [...runtimeAlerts, ...seedSorted];
 }
 
-// Seed-backed
+// ---- Seed-backed (unchanged) ----
+
 export async function getTrades(): Promise<Trade[]> { await delay(); return trades; }
 export async function getPairPerformance(): Promise<PairPerformance[]> { await delay(); return pairPerformance; }
 export async function getABHypotheses(): Promise<ABHypothesis[]> { await delay(); return abHypotheses; }
