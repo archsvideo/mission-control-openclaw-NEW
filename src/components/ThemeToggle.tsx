@@ -5,15 +5,15 @@ import { Button } from "@/components/ui/button";
 export function ThemeToggle() {
   const [dark, setDark] = useState(() => {
     if (typeof window !== "undefined") {
-      return document.documentElement.classList.contains("dark") ||
-        (!document.documentElement.classList.contains("light") &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches);
+      const stored = localStorage.getItem("theme");
+      if (stored) return stored === "dark";
     }
-    return true;
+    return false; // default: light
   });
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
+    localStorage.setItem("theme", dark ? "dark" : "light");
   }, [dark]);
 
   return (

@@ -24,6 +24,14 @@
 </head>
 
   <body>
+    <script>
+      // Apply saved theme before React loads to prevent flash
+      (function() {
+        var t = localStorage.getItem("theme");
+        if (t === "dark") document.documentElement.classList.add("dark");
+        // default is light — no class needed
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
