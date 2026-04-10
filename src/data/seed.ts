@@ -6,25 +6,21 @@ import type {
 } from "@/types/models";
 
 export const agents: Agent[] = [
-  { id: "a1", name: "Chief Orchestrator", role: "chief-orchestrator", type: "Orchestrator", status: "running", lastActive: "2026-03-19T14:30:00Z", tasksCompleted: 892, uptime: "30d 4h", description: "Coordinates all sub-agents and manages escalations", heartbeat: "2026-03-19T14:30:00Z", currentTask: "Monitoring sub-agent health", costToday: 2.14, successRate: 99.2 },
-  { id: "a2", name: "Trading Orchestrator", role: "trading-orchestrator", type: "Trading", status: "running", lastActive: "2026-03-19T14:28:00Z", tasksCompleted: 347, uptime: "12d 4h", description: "Executes swing trades on crypto pairs", heartbeat: "2026-03-19T14:28:00Z", currentTask: "Monitoring BTC/USDT position", costToday: 1.87, successRate: 72.4 },
-  { id: "a3", name: "Lead Orchestrator", role: "lead-orchestrator", type: "Sales", status: "running", lastActive: "2026-03-19T14:25:00Z", tasksCompleted: 156, uptime: "8d 2h", description: "Manages lead pipeline and follow-ups", heartbeat: "2026-03-19T14:25:00Z", currentTask: "Scoring new inbound leads", costToday: 0.92, successRate: 85.1 },
-  { id: "a4", name: "Skylight CRO", role: "skylight-cro-orchestrator", type: "Marketing", status: "running", lastActive: "2026-03-19T14:20:00Z", tasksCompleted: 83, uptime: "5d 11h", description: "Optimizes ad creatives and landing pages", heartbeat: "2026-03-19T14:20:00Z", currentTask: "Analyzing creative performance", costToday: 1.45, successRate: 78.3 },
-  { id: "a5", name: "Radar Scout", role: "radar-orchestrator", type: "Intelligence", status: "idle", lastActive: "2026-03-19T13:00:00Z", tasksCompleted: 234, uptime: "15d 8h", description: "Monitors competitor content and patterns", heartbeat: "2026-03-19T13:00:00Z", currentTask: "Idle — next scan in 2h", costToday: 0.34, successRate: 91.7 },
-  { id: "a6", name: "Revit Automator", role: "revit-orchestrator", type: "Automation", status: "paused", lastActive: "2026-03-19T12:00:00Z", tasksCompleted: 67, uptime: "2d 8h", description: "Runs Revit batch jobs and automations", heartbeat: "2026-03-19T12:00:00Z", currentTask: "Paused — awaiting job queue", costToday: 0.0, successRate: 88.9 },
-  { id: "a7", name: "Tracking Diagnostics", role: "tracking-diagnostics", type: "ETL", status: "running", lastActive: "2026-03-19T14:29:00Z", tasksCompleted: 1204, uptime: "30d 2h", description: "Monitors GA4/GTM/booking tracking health", heartbeat: "2026-03-19T14:29:00Z", currentTask: "Validating GA4 event stream", costToday: 0.56, successRate: 96.8 },
-  { id: "a8", name: "Email Follow-up Writer", role: "email-followup-writer", type: "Communication", status: "error", lastActive: "2026-03-19T10:15:00Z", tasksCompleted: 56, uptime: "0d 0h", description: "Drafts and sends follow-up emails", heartbeat: "2026-03-19T10:15:00Z", currentTask: "Stopped — Gmail auth failure", costToday: 0.0, successRate: 64.3 },
+  { id: "nova-core", name: "NovaCore", role: "executive_escalation", type: "runtime", status: "running", lastActive: "2026-04-10T15:30:00Z", tasksCompleted: 892, uptime: "30d 4h", description: "Executive escalation. Daily briefing, evening recap, health checks. Does NOT manage trading or ads directly.", heartbeat: "2026-04-10T15:30:00Z", currentTask: "Monitoring system health", costToday: 2.14, successRate: 99.2 },
+  { id: "nova-trade", name: "NovaTrade", role: "trading", type: "runtime", status: "running", lastActive: "2026-04-10T15:28:00Z", tasksCompleted: 347, uptime: "12d 4h", description: "Trading bot on Binance Testnet. EMA crossover strategy. Standalone service, not inside OpenClaw.", heartbeat: "2026-04-10T15:28:00Z", currentTask: "Monitoring BTC/USDT and ETH/USDT", costToday: 1.87, successRate: 72.4 },
+  { id: "nova-ads", name: "NovaAds", role: "ads", type: "runtime", status: "running", lastActive: "2026-04-10T15:20:00Z", tasksCompleted: 83, uptime: "5d 11h", description: "Meta Ads manager. TOP3 is current control. Page/Inbox blocked. Ads API partial.", heartbeat: "2026-04-10T15:20:00Z", currentTask: "Analyzing creative performance", costToday: 1.45, successRate: 78.3 },
+  { id: "nova-estudio", name: "NovaEstudio", role: "studio", type: "runtime", status: "idle", lastActive: "2026-04-10T14:00:00Z", tasksCompleted: 234, uptime: "15d 8h", description: "Content and image generation. ComfyUI via LAN. Currently idle awaiting requests.", heartbeat: "2026-04-10T14:00:00Z", currentTask: "Awaiting content request", costToday: 0.34, successRate: 91.7 },
 ];
 
 export const tasks: Task[] = [
-  { id: "t1", title: "Analyze BTC/USDT divergence", description: "RSI divergence detected on 4H", status: "running", priority: "high", assignedAgent: "a2", createdAt: "2026-03-19T08:00:00Z", updatedAt: "2026-03-19T14:00:00Z", tags: ["trading", "crypto"] },
-  { id: "t2", title: "Write Q1 blog post", description: "Draft quarterly review", status: "inbox", priority: "medium", createdAt: "2026-03-18T10:00:00Z", updatedAt: "2026-03-18T10:00:00Z", tags: ["content"] },
-  { id: "t3", title: "Fix Gmail SMTP auth", description: "Token expired, needs refresh", status: "blocked", priority: "critical", assignedAgent: "a8", createdAt: "2026-03-19T10:00:00Z", updatedAt: "2026-03-19T10:15:00Z", tags: ["integration", "email"] },
-  { id: "t4", title: "Sync GA4 weekly report", description: "Pull last 7 days of data", status: "waiting", priority: "low", assignedAgent: "a7", createdAt: "2026-03-19T06:00:00Z", updatedAt: "2026-03-19T06:00:00Z", tags: ["analytics"] },
-  { id: "t5", title: "Deploy new ad creatives", description: "Upload 3 new variants to Meta", status: "done", priority: "medium", assignedAgent: "a4", createdAt: "2026-03-17T09:00:00Z", updatedAt: "2026-03-18T16:00:00Z", tags: ["marketing", "meta"] },
-  { id: "t6", title: "Monitor ETH position risk", description: "Check margin levels", status: "running", priority: "high", assignedAgent: "a2", createdAt: "2026-03-19T12:00:00Z", updatedAt: "2026-03-19T14:20:00Z", tags: ["trading"] },
-  { id: "t7", title: "Score inbound leads", description: "Process 12 new leads from landing page", status: "running", priority: "high", assignedAgent: "a3", createdAt: "2026-03-19T07:00:00Z", updatedAt: "2026-03-19T14:00:00Z", tags: ["leads"] },
-  { id: "t8", title: "Optimize landing page CTA", description: "A/B test button colors", status: "waiting", priority: "low", createdAt: "2026-03-18T14:00:00Z", updatedAt: "2026-03-18T14:00:00Z", tags: ["marketing"] },
+  { id: "t1", title: "Analyze BTC/USDT divergence", description: "RSI divergence detected on 4H", status: "running", priority: "high", assignedAgent: "nova-trade", createdAt: "2026-04-10T08:00:00Z", updatedAt: "2026-04-10T14:00:00Z", tags: ["trading", "crypto"] },
+  { id: "t2", title: "Monitor ETH/USDT position", description: "Check EMA crossover signal and margin levels", status: "running", priority: "high", assignedAgent: "nova-trade", createdAt: "2026-04-10T12:00:00Z", updatedAt: "2026-04-10T15:20:00Z", tags: ["trading"] },
+  { id: "t3", title: "Review Meta creative performance", description: "TOP3 paused since 2026-03-31 — control-gap risk. Evaluate BestCreative_1 challenger.", status: "running", priority: "critical", assignedAgent: "nova-ads", createdAt: "2026-04-10T09:00:00Z", updatedAt: "2026-04-10T15:20:00Z", tags: ["ads", "meta"] },
+  { id: "t4", title: "Resolve Meta Page token", description: "Page/Inbox blocked — token expired (code 190/463). Missing pages_read_engagement.", status: "blocked", priority: "critical", assignedAgent: "nova-ads", createdAt: "2026-04-01T10:00:00Z", updatedAt: "2026-04-10T10:00:00Z", tags: ["ads", "meta", "integration"] },
+  { id: "t5", title: "Generate Skylight Cabin content batch", description: "3 social posts for cabin project — Instagram + LinkedIn", status: "inbox", priority: "medium", assignedAgent: "nova-estudio", createdAt: "2026-04-10T08:00:00Z", updatedAt: "2026-04-10T08:00:00Z", tags: ["content", "studio"] },
+  { id: "t6", title: "Evening system health recap", description: "Compile daily briefing: trading P&L, ad spend, agent status", status: "inbox", priority: "medium", assignedAgent: "nova-core", createdAt: "2026-04-10T14:00:00Z", updatedAt: "2026-04-10T14:00:00Z", tags: ["ops", "briefing"] },
+  { id: "t7", title: "ComfyUI image job — cabin exterior", description: "Generate 4 variants of premium cabin exterior render via LAN", status: "done", priority: "medium", assignedAgent: "nova-estudio", createdAt: "2026-04-09T16:00:00Z", updatedAt: "2026-04-09T17:30:00Z", tags: ["studio", "comfyui"] },
+  { id: "t8", title: "Validate OKX demo baseline", description: "Confirm no live execution lane active. Orphan BTC/XRP holdings noted.", status: "done", priority: "high", assignedAgent: "nova-trade", createdAt: "2026-04-03T10:00:00Z", updatedAt: "2026-04-03T12:00:00Z", tags: ["trading", "risk"] },
 ];
 
 export const trades: Trade[] = [
@@ -147,14 +143,10 @@ export const revitJobs: RevitJob[] = [
 ];
 
 export const contractValidations: ContractValidation[] = [
-  { agentId: "a1", agentName: "Chief Orchestrator", totalChecks: 892, passed: 890, failed: 2, lastFailure: "2026-03-15T10:00:00Z" },
-  { agentId: "a2", agentName: "Trading Orchestrator", totalChecks: 347, passed: 341, failed: 6, lastFailure: "2026-03-19T08:00:00Z" },
-  { agentId: "a3", agentName: "Lead Orchestrator", totalChecks: 156, passed: 154, failed: 2 },
-  { agentId: "a4", agentName: "Skylight CRO", totalChecks: 83, passed: 81, failed: 2, lastFailure: "2026-03-18T14:00:00Z" },
-  { agentId: "a5", agentName: "Radar Scout", totalChecks: 234, passed: 234, failed: 0 },
-  { agentId: "a6", agentName: "Revit Automator", totalChecks: 67, passed: 62, failed: 5, lastFailure: "2026-03-19T11:00:00Z" },
-  { agentId: "a7", agentName: "Tracking Diagnostics", totalChecks: 1204, passed: 1200, failed: 4 },
-  { agentId: "a8", agentName: "Email Follow-up Writer", totalChecks: 56, passed: 42, failed: 14, lastFailure: "2026-03-19T10:16:00Z" },
+  { agentId: "nova-core", agentName: "NovaCore", totalChecks: 892, passed: 890, failed: 2, lastFailure: "2026-04-08T10:00:00Z" },
+  { agentId: "nova-trade", agentName: "NovaTrade", totalChecks: 347, passed: 341, failed: 6, lastFailure: "2026-04-10T08:00:00Z" },
+  { agentId: "nova-ads", agentName: "NovaAds", totalChecks: 83, passed: 81, failed: 2, lastFailure: "2026-04-09T14:00:00Z" },
+  { agentId: "nova-estudio", agentName: "NovaEstudio", totalChecks: 234, passed: 234, failed: 0 },
 ];
 
 export const costGuardrails: CostGuardrail[] = [
