@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, Bot, ListTodo, TrendingUp, Megaphone, Plug, Clock, Settings,
-  Zap, CalendarDays, Users, Radar, HardDrive, Brain, Eye, Command
+  Zap, Brain, Command
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -18,15 +18,10 @@ const coreItems = [
 
 const opsItems = [
   { title: "Trading Ops", url: "/trading", icon: TrendingUp },
-  { title: "Lead Pipeline", url: "/leads", icon: Users },
-  { title: "Skylight CRO", url: "/skylight", icon: Eye },
-  { title: "Competitor Radar", url: "/radar", icon: Radar },
-  { title: "Revit Queue", url: "/revit", icon: HardDrive },
+  { title: "Marketing", url: "/marketing", icon: Megaphone },
 ];
 
 const infoItems = [
-  { title: "Marketing", url: "/marketing", icon: Megaphone },
-  { title: "Content Calendar", url: "/content-calendar", icon: CalendarDays },
   { title: "Integrations", url: "/integrations", icon: Plug },
   { title: "Timeline", url: "/timeline", icon: Clock },
   { title: "Memory", url: "/memory", icon: Brain },
