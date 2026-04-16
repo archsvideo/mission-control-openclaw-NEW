@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import {
   LayoutDashboard, Bot, ListTodo, TrendingUp, Megaphone, Plug, Clock, Settings,
-  CalendarDays, Users, Radar, HardDrive, Brain, Eye
+  CalendarDays, Users, Radar, HardDrive, Brain, Eye, Mail
 } from "lucide-react";
 
 const commands = [
   { label: "Control Tower", path: "/", icon: LayoutDashboard },
   { label: "Agents", path: "/agents", icon: Bot },
   { label: "Tasks", path: "/tasks", icon: ListTodo },
+  { label: "Inbox", path: "/inbox", icon: Mail },
   { label: "Trading Ops", path: "/trading", icon: TrendingUp },
   { label: "Lead Pipeline", path: "/leads", icon: Users },
   { label: "Skylight CRO Lab", path: "/skylight", icon: Eye },
