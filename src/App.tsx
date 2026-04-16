@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AppLayout } from "@/components/AppLayout";
 import { CommandBar } from "@/components/CommandBar";
+import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
 import ControlTowerPage from "@/pages/ControlTowerPage";
 import AgentsPage from "@/pages/AgentsPage";
 import TasksPage from "@/pages/TasksPage";
@@ -14,6 +15,7 @@ import IntegrationsPage from "@/pages/IntegrationsPage";
 import TimelinePage from "@/pages/TimelinePage";
 import MemoryPage from "@/pages/MemoryPage";
 import SettingsPage from "@/pages/SettingsPage";
+import InboxPage from "@/pages/InboxPage";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +27,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <CommandBar />
+        <PWAInstallPrompt />
         <AppLayout>
           <Routes>
             <Route path="/" element={<ControlTowerPage />} />
@@ -36,6 +39,7 @@ const App = () => (
             <Route path="/timeline" element={<TimelinePage />} />
             <Route path="/memory" element={<MemoryPage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/inbox" element={<InboxPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AppLayout>
