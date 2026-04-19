@@ -8,8 +8,97 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
-import { CalendarDays, Sun, Clock, Moon, FileText, Image, FileCheck, Send } from "lucide-react";
+import { CalendarDays, Sun, Clock, Moon, FileText, Image, FileCheck, Send, Github, ExternalLink, FolderGit2 } from "lucide-react";
 import type { ContentCalendarItem, ContentStatus } from "@/types/models";
+
+const LIVE_REPO = {
+  owner: "archsvideo",
+  name: "content-calendar",
+  url: "https://github.com/archsvideo/content-calendar",
+  branch: "main",
+  producedBy: "Nova Studio",
+};
+
+function liveRepoPath(path: string) {
+  return `${LIVE_REPO.url}/blob/${LIVE_REPO.branch}/${path}`;
+}
+
+function todayIsoMadrid(): string {
+  // Europe/Madrid YYYY-MM-DD — independent of the browser's local timezone.
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Madrid",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date());
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
+  return `${get("year")}-${get("month")}-${get("day")}`;
+}
+
+function LiveRepoBanner() {
+  const iso = todayIsoMadrid();
+  const month = iso.slice(0, 7); // YYYY-MM
+  const todayPath = `calendar/${month}/${iso}.md`;
+  const radarPath = `research/radar/`;
+  const docsPath = `docs/voice-guide.md`;
+
+  return (
+    <Card className="border-primary/40 bg-primary/5">
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between gap-3 flex-wrap">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <FolderGit2 className="h-4 w-4 text-primary" />
+              <CardTitle className="text-base">Live calendar repo</CardTitle>
+              <Badge variant="outline" className="text-[10px] border-primary/40 text-primary">
+                {LIVE_REPO.producedBy}
+              </Badge>
+            </div>
+            <CardDescription className="text-xs">
+              Source of truth — Nova Studio escribe aquí, Oscar aprueba, luego se publica.
+            </CardDescription>
+          </div>
+          <Button asChild size="sm" variant="default" className="gap-2">
+            <a href={LIVE_REPO.url} target="_blank" rel="noreferrer noopener">
+              <Github className="h-3.5 w-3.5" />
+              {LIVE_REPO.owner}/{LIVE_REPO.name}
+              <ExternalLink className="h-3 w-3 opacity-60" />
+            </a>
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-0">
+        <Button asChild size="sm" variant="outline" className="justify-between text-xs">
+          <a href={liveRepoPath(todayPath)} target="_blank" rel="noreferrer noopener">
+            <span className="flex items-center gap-1.5">
+              <CalendarDays className="h-3.5 w-3.5" />
+              Plan de hoy · {iso}
+            </span>
+            <ExternalLink className="h-3 w-3 opacity-60" />
+          </a>
+        </Button>
+        <Button asChild size="sm" variant="outline" className="justify-between text-xs">
+          <a href={liveRepoPath(radarPath)} target="_blank" rel="noreferrer noopener">
+            <span className="flex items-center gap-1.5">
+              <FileText className="h-3.5 w-3.5" />
+              Radar semanal
+            </span>
+            <ExternalLink className="h-3 w-3 opacity-60" />
+          </a>
+        </Button>
+        <Button asChild size="sm" variant="outline" className="justify-between text-xs">
+          <a href={liveRepoPath(docsPath)} target="_blank" rel="noreferrer noopener">
+            <span className="flex items-center gap-1.5">
+              <FileCheck className="h-3.5 w-3.5" />
+              Voice guide
+            </span>
+            <ExternalLink className="h-3 w-3 opacity-60" />
+          </a>
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
 
 const statusStyle: Record<ContentStatus, string> = {
   planned: "bg-secondary text-secondary-foreground",
@@ -127,6 +216,8 @@ export default function ContentCalendarPage() {
           <p className="text-sm text-muted-foreground mt-1">Day-to-day execution tracking</p>
         </div>
       </div>
+
+      <LiveRepoBanner />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main content area */}
