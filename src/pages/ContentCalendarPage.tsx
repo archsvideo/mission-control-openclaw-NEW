@@ -115,7 +115,30 @@ const channelLabel: Record<string, string> = {
   email: "Email",
 };
 
-const today = "2026-03-19";
+function weekRange(isoDate: string): { start: string; end: string } {
+  // Monday-anchored week for a given YYYY-MM-DD date
+  const d = new Date(`${isoDate}T00:00:00Z`);
+  const dow = d.getUTCDay(); // 0=Sun, 1=Mon ... 6=Sat
+  const monOffset = dow === 0 ? -6 : 1 - dow;
+  const start = new Date(d);
+  start.setUTCDate(d.getUTCDate() + monOffset);
+  const end = new Date(start);
+  end.setUTCDate(start.getUTCDate() + 6);
+  return {
+    start: start.toISOString().slice(0, 10),
+    end: end.toISOString().slice(0, 10),
+  };
+}
+
+function weekDays(startIso: string): string[] {
+  const days: string[] = [];
+  for (let i = 0; i < 7; i += 1) {
+    const d = new Date(`${startIso}T00:00:00Z`);
+    d.setUTCDate(d.getUTCDate() + i);
+    days.push(d.toISOString().slice(0, 10));
+  }
+  return days;
+}
 
 function ContentCard({ item }: { item: ContentCalendarItem }) {
   return (
@@ -191,9 +214,36 @@ export default function ContentCalendarPage() {
   const [quickCapture, setQuickCapture] = useState("");
   const [completedWf, setCompletedWf] = useState<Set<string>>(new Set());
 
+  const today = todayIsoMadrid();
+  const { start: weekStart, end: weekEnd } = weekRange(today);
   const todayItems = items.filter((i) => i.date === today);
-  const thisWeek = items.filter((i) => i.date >= "2026-03-17" && i.date <= "2026-03-23");
+  const thisWeek = items.filter((i) => i.date >= weekStart && i.date <= weekEnd);
   const doneItems = items.filter((i) => i.status === "done");
+
+  // When today has nothing, surface the next upcoming items (up to 5) so the
+  // tab never looks broken. Falls back to most recent if the calendar is behind.
+  const upcoming = items
+    .filter((i) => i.date > today)
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .slice(0, 5);
+  const recentBacklog = items
+    .filter((i) => i.date < today && i.status !== "done")
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .slice(0, 5);
+
+  // Week tab fallback: if current week has nothing, show the most recent week
+  // that actually has content so the tab is useful.
+  const pickDisplayWeek = (): { start: string; end: string; label: "current" | "fallback" } => {
+    if (thisWeek.length > 0) return { start: weekStart, end: weekEnd, label: "current" };
+    const latest = items
+      .slice()
+      .sort((a, b) => b.date.localeCompare(a.date))[0];
+    if (!latest) return { start: weekStart, end: weekEnd, label: "current" };
+    const r = weekRange(latest.date);
+    return { start: r.start, end: r.end, label: "fallback" };
+  };
+  const displayWeek = pickDisplayWeek();
+  const displayWeekItems = items.filter((i) => i.date >= displayWeek.start && i.date <= displayWeek.end);
 
   const toggleCheckpoint = (id: string) => {
     setCompletedWf((prev) => {
@@ -230,21 +280,59 @@ export default function ContentCalendarPage() {
             </TabsList>
 
             <TabsContent value="day" className="space-y-3 mt-4">
-              {todayItems.length === 0 && <p className="text-sm text-muted-foreground">No items scheduled for today.</p>}
-              {todayItems.map((item) => (
-                <ContentCard key={item.id} item={item} />
-              ))}
+              {todayItems.length > 0 ? (
+                todayItems.map((item) => <ContentCard key={item.id} item={item} />)
+              ) : (
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Nothing scheduled for today ({today}).
+                  </p>
+
+                  {upcoming.length > 0 && (
+                    <div className="space-y-2">
+                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        Next up
+                      </p>
+                      {upcoming.map((item) => (
+                        <ContentCard key={item.id} item={item} />
+                      ))}
+                    </div>
+                  )}
+
+                  {upcoming.length === 0 && recentBacklog.length > 0 && (
+                    <div className="space-y-2">
+                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        Backlog (pending from earlier)
+                      </p>
+                      {recentBacklog.map((item) => (
+                        <ContentCard key={item.id} item={item} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </TabsContent>
 
             <TabsContent value="week" className="space-y-3 mt-4">
-              {["2026-03-17", "2026-03-18", "2026-03-19", "2026-03-20", "2026-03-21"].map((date) => {
-                const dayItems = thisWeek.filter((i) => i.date === date);
+              {displayWeek.label === "fallback" && (
+                <div className="rounded-md border border-warning/30 bg-warning/5 p-2 text-xs">
+                  No content for the current week ({weekStart} → {weekEnd}).
+                  Showing the last planned week below.
+                </div>
+              )}
+              {displayWeekItems.length === 0 && (
+                <p className="text-sm text-muted-foreground">
+                  Nothing planned yet ({displayWeek.start} → {displayWeek.end}).
+                </p>
+              )}
+              {weekDays(displayWeek.start).map((date) => {
+                const dayItems = displayWeekItems.filter((i) => i.date === date);
                 if (dayItems.length === 0) return null;
-                const d = new Date(date);
+                const d = new Date(`${date}T00:00:00Z`);
                 return (
                   <div key={date}>
                     <p className="text-xs font-medium text-muted-foreground mb-2">
-                      {d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}
+                      {d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", timeZone: "UTC" })}
                       {date === today && <Badge variant="secondary" className="ml-2 text-[10px]">Today</Badge>}
                     </p>
                     <div className="space-y-2 ml-2 border-l-2 border-border pl-3">

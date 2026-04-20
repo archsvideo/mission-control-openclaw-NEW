@@ -128,7 +128,7 @@ export interface IntegrationStatus {
 }
 
 export type ContentStatus = "planned" | "in_progress" | "done" | "blocked";
-export type ContentChannel = "linkedin" | "instagram" | "twitter" | "blog" | "email";
+export type ContentChannel = "linkedin" | "instagram" | "twitter" | "blog" | "email" | "tiktok" | "youtube";
 
 export interface ContentCalendarItem {
   id: string;
@@ -192,6 +192,80 @@ export interface CompetitorEntry {
   pattern: string;
   testedInternally: boolean;
   createdAt: string;
+}
+
+// ---- Competitor Radar (live from content-calendar repo) ----
+
+export interface CompetitorProfile {
+  handle: string;
+  platform: string;
+  whyFollow: string;
+  whatNotCopy: string;
+  oscarValidated: boolean;
+  oscarRejected: boolean;
+  isPlaceholder: boolean;
+}
+
+export interface CompetitorTier {
+  tier: number;
+  label: string;
+  description: string;
+  notes: string[];
+  competitors: CompetitorProfile[];
+}
+
+export interface RadarSource {
+  done: boolean;
+  label: string;
+}
+
+export interface RadarSignal {
+  source: string;
+  when: string;
+  what: string;
+  whyMatters: string;
+  angle: string;
+  candidateFor: string;
+}
+
+export interface RadarSnapshot {
+  date: string;
+  file: string;
+  generatedBy: string;
+  sourcesScanned: RadarSource[];
+  signalsFound: number;
+  signals: RadarSignal[];
+  noise: string[];
+  nextToWatch: string[];
+  updatedAt: string;
+}
+
+export interface CompetitorRadarState {
+  updatedAt: string;
+  generatedBy: string;
+  repo: string;
+  staleAfterSeconds: number;
+  counts: {
+    tiers: number;
+    competitors: number;
+    validated: number;
+    placeholders: number;
+    signals: number;
+    radarFiles: number;
+  };
+  tiers: CompetitorTier[];
+  hashtags: string[];
+  newsletters: string[];
+  rules: string[];
+  latestRadar: RadarSnapshot | null;
+  radarHistory: Array<{
+    date: string;
+    file: string;
+    signalsFound: number;
+    generatedBy: string;
+    updatedAt: string;
+  }>;
+  errors: Array<{ code: string; message: string; file?: string }>;
 }
 
 export type RevitJobStatus = "queued" | "running" | "completed" | "failed" | "retrying";
